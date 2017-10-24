@@ -7,8 +7,9 @@ import Colors from '../constants/Colors';
 
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
 import AttractionsNavigator from './AttractionsNavigator';
+import BarcodeScanScreen from '../screens/BarcodeScanScreen';
+import MapScreen from '../screens/MapScreen';
 
 export default TabNavigator(
   {
@@ -17,22 +18,31 @@ export default TabNavigator(
     },
     Attractions: {
       screen: AttractionsNavigator,
+    },
+    ScanBarcode: {
+      screen: BarcodeScanScreen,
+    },
+    Map: {
+      screen: MapScreen,
     }
   },
   {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused }) => {
         const { routeName } = navigation.state;
-        console.log(navigation.state);
         let iconName;
         switch (routeName) {
           case 'Home':
+          case 'Attractions':
             iconName = Platform.OS === 'ios'
               ? `ios-information-circle${focused ? '' : '-outline'}`
               : 'md-information-circle';
             break;
-
-          case 'Attractions':
+          case 'ScanBarcode':
+            iconName = Platform.OS === 'ios'
+              ? `ios-options${focused ? '' : '-outline'}`
+              : 'md-options';
+          case 'Map':
             iconName = Platform.OS === 'ios'
               ? `ios-information-circle${focused ? '' : '-outline'}`
               : 'md-information-circle';
