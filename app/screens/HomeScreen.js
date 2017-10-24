@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { connect } from 'react-redux';
-import { getCustInfo } from '../actions/CustomerActions';
 import { MonoText } from '../components/StyledText';
 
 class HomeScreen extends React.Component {
@@ -57,7 +56,7 @@ class HomeScreen extends React.Component {
 
           <View style={styles.helpContainer}>
             <TouchableOpacity
-              onPress={this.props.getCustInfo("093cin209n2093icn092eni")}
+              onPress={this._handleHelpPress}
               style={styles.helpLink}>
               <Text style={styles.helpLinkText}>
                 Help, it didn’t automatically reload!
@@ -70,7 +69,6 @@ class HomeScreen extends React.Component {
           <Text style={styles.tabBarInfoText}>
             This is a tab bar. You can edit it in:
           </Text>
-
           <View
             style={[styles.codeHighlightContainer, styles.navigationFilename]}>
             <MonoText style={styles.codeHighlightText}>
@@ -118,20 +116,7 @@ class HomeScreen extends React.Component {
   };
 }
 
-const mapStateToProps = state => ({
-  isLoading: state.general.isLoading,
-  custInfo: state.customer.custInfo,
-  error: state.general.error,
-  errorMessage: state.general.errorMessage,
-});
-
-const mapDispatchToProps = dispatch => ({
-  getCustInfo: redemptionQR => { dispatch(getCustInfo(redemptionQR)) },
-});
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
 )(HomeScreen);
 
 const styles = StyleSheet.create({

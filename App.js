@@ -1,13 +1,12 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { Provider } from 'react-redux';
+import { ApolloProvider } from 'react-apollo';
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import RootNavigation from './app/navigation/RootNavigation';
-import configureStore from './app/config/configureStore';
-
-const { persistor, store } = configureStore();
+import { persistor, store } from './app/config/configureStore';
+import { client } from './app/config/configureApollo';
 
 export default class App extends React.Component {
   state = {
@@ -29,14 +28,14 @@ export default class App extends React.Component {
           persistor={persistor}
           loading={<AppLoading />}
           >
-          <Provider store={store}>
+          <ApolloProvider store={store} client={client}>
             <View style={styles.container}>
               {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
               {Platform.OS === 'android' &&
                 <View style={styles.statusBarUnderlay} />}
               <RootNavigation />
             </View>
-          </Provider>
+          </ApolloProvider>
         </PersistGate>
       );
     }

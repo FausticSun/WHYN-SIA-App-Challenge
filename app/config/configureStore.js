@@ -3,8 +3,8 @@ import { apiMiddleware } from 'redux-api-middleware';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/es/storage';
 import SIAReducers from '../reducers/SIAReducers';
-import CustomerReducers from "../reducers/CustomerReducers";
 import GeneralReducers from "../reducers/GeneralReducers";
+import { client } from "./configureApollo.js";
 
 const config = {
   key: 'root',
@@ -13,14 +13,9 @@ const config = {
 
 const reducer = persistReducer(config, combineReducers({
   SIA: SIAReducers,
-  customer: CustomerReducers,
   general: GeneralReducers,
+  apollo: client.reducer(),
 }));
 
-function configureStore() {
-  let store = createStore(reducer, applyMiddleware(apiMiddleware));
-  let persistor = persistStore(store);
-  return { persistor, store };
-}
-
-export default configureStore;
+export const store = createStore(reducer, applyMiddleware(apiMiddleware));
+export const persistor = persistStore(store);
