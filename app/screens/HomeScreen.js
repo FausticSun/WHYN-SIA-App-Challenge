@@ -1,4 +1,5 @@
 import React from 'react';
+import { getPNR } from '../actions/SIAActions';
 import {
   Image,
   Platform,
@@ -9,10 +10,10 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-
+import { connect } from 'react-redux';
 import { MonoText } from '../components/StyledText';
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -50,13 +51,13 @@ export default class HomeScreen extends React.Component {
             </View>
 
             <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
+              { this.props.pnr ? this.props.pnr.responseBody.passengers[0].lastName : "No Data" }
             </Text>
           </View>
 
           <View style={styles.helpContainer}>
             <TouchableOpacity
-              onPress={this._handleHelpPress}
+              onPress={this.props.getPNR("ABCDEF")}
               style={styles.helpLink}>
               <Text style={styles.helpLinkText}>
                 Help, it didn’t automatically reload!
@@ -116,6 +117,22 @@ export default class HomeScreen extends React.Component {
     );
   };
 }
+
+const mapStateToProps = state => ({
+  isLoading: state.SIA.isLoading,
+  pnr: state.SIA.pnr,
+  error: state.SIA.error,
+  errorMessage: state.SIA.errorMessage,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getPNR: pnr => { dispatch(getPNR(pnr)) },
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {
