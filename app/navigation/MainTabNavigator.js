@@ -37,8 +37,6 @@ export default TabNavigator(
               ? `ios-information-circle${focused ? '' : '-outline'}`
               : 'md-information-circle';
               break;
-          default:
-            return null;
         }
         return (
           <Ionicons
