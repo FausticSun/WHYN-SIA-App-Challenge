@@ -3,10 +3,11 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
+import { PersistGate } from 'redux-persist/es/integration/react';
 import RootNavigation from './app/navigation/RootNavigation';
 import configureStore from './app/config/configureStore';
 
-const store = configureStore({});
+const { persistor, store } = configureStore();
 
 export default class App extends React.Component {
   state = {
@@ -24,14 +25,19 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <Provider store={store}>
-          <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            {Platform.OS === 'android' &&
-              <View style={styles.statusBarUnderlay} />}
-            <RootNavigation />
-          </View>
-        </Provider>
+        <PersistGate
+          persistor={persistor}
+          loading={<AppLoading />}
+          >
+          <Provider store={store}>
+            <View style={styles.container}>
+              {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+              {Platform.OS === 'android' &&
+                <View style={styles.statusBarUnderlay} />}
+              <RootNavigation />
+            </View>
+          </Provider>
+        </PersistGate>
       );
     }
   }

@@ -1,14 +1,22 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { apiMiddleware } from 'redux-api-middleware';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/es/storage';
 import SIAReducers from '../reducers/SIAReducers';
 
-const reducer = combineReducers({
-  SIA: SIAReducers,
-});
-const createStoreWithMiddleware = applyMiddleware(apiMiddleware)(createStore);
+const config = {
+  key: 'root',
+  storage,
+};
 
-function configureStore(initialState) {
-  return createStoreWithMiddleware(reducer, initialState);
+const reducer = persistReducer(config, combineReducers({
+  SIA: SIAReducers,
+}));
+
+function configureStore() {
+  let store = createStore(reducer, applyMiddleware(apiMiddleware));
+  let persistor = persistStore(store);
+  return { persistor, store };
 }
 
 export default configureStore;
