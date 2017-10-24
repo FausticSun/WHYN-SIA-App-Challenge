@@ -1,9 +1,7 @@
 import { RSAA } from 'redux-api-middleware';
 import { SIA_CLIENT_UUID, SIA_API_KEY } from '../config/apiKeys';
-
-export const REQUEST = 'REQUEST';
+import { REQUEST, FAILURE } from './GeneralActions';
 export const GETPNR_SUCCESS = 'GETPNR_SUCCESS';
-export const GETPNR_FAILURE = 'GETPNR_FAILURE';
 
 export function getPNR(pnr) {
   return {
@@ -20,7 +18,7 @@ export function getPNR(pnr) {
         'Content-Type': 'application/json',
         'x-api-key': SIA_API_KEY,
       },
-      types: [REQUEST, GETPNR_SUCCESS, GETPNR_FAILURE]
+      types: [REQUEST, GETPNR_SUCCESS, FAILURE]
     }
   }
 }

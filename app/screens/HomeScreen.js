@@ -1,5 +1,4 @@
 import React from 'react';
-import { getPNR } from '../actions/SIAActions';
 import {
   Image,
   Platform,
@@ -11,6 +10,7 @@ import {
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { connect } from 'react-redux';
+import { getCustInfo } from '../actions/CustomerActions';
 import { MonoText } from '../components/StyledText';
 
 class HomeScreen extends React.Component {
@@ -51,13 +51,13 @@ class HomeScreen extends React.Component {
             </View>
 
             <Text style={styles.getStartedText}>
-              { this.props.pnr ? this.props.pnr.responseBody.passengers[0].lastName : "No Data" }
+              { this.props.customer ? this.props.customer.name : "No Data" }
             </Text>
           </View>
 
           <View style={styles.helpContainer}>
             <TouchableOpacity
-              onPress={this.props.getPNR("ABCDEF")}
+              onPress={this.props.getCustInfo("093cin209n2093icn092eni")}
               style={styles.helpLink}>
               <Text style={styles.helpLinkText}>
                 Help, it didn’t automatically reload!
@@ -119,14 +119,14 @@ class HomeScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isLoading: state.SIA.isLoading,
-  pnr: state.SIA.pnr,
-  error: state.SIA.error,
-  errorMessage: state.SIA.errorMessage,
+  isLoading: state.general.isLoading,
+  custInfo: state.customer.custInfo,
+  error: state.general.error,
+  errorMessage: state.general.errorMessage,
 });
 
 const mapDispatchToProps = dispatch => ({
-  getPNR: pnr => { dispatch(getPNR(pnr)) },
+  getCustInfo: redemptionQR => { dispatch(getCustInfo(redemptionQR)) },
 });
 
 export default connect(
