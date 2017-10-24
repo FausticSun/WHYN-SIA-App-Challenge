@@ -3,6 +3,7 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './app/navigation/RootNavigation';
+import configureStore from './app/config/configureStore';
 
 export default class App extends React.Component {
   state = {
