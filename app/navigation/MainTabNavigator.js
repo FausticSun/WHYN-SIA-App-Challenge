@@ -8,27 +8,22 @@ import Colors from '../constants/Colors';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import AttractionsScreen from '../screens/AttractionsScreen';
+import AttractionsNavigator from './AttractionsNavigator';
 
 export default TabNavigator(
   {
     Home: {
       screen: HomeScreen,
     },
-    Links: {
-      screen: LinksScreen,
-    },
-    Settings: {
-      screen: SettingsScreen,
-    },
     Attractions: {
-      screen: AttractionsScreen,
+      screen: AttractionsNavigator,
     }
   },
   {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused }) => {
         const { routeName } = navigation.state;
+        console.log(navigation.state);
         let iconName;
         switch (routeName) {
           case 'Home':
@@ -36,19 +31,14 @@ export default TabNavigator(
               ? `ios-information-circle${focused ? '' : '-outline'}`
               : 'md-information-circle';
             break;
-          case 'Links':
-            iconName = Platform.OS === 'ios'
-              ? `ios-link${focused ? '' : '-outline'}`
-              : 'md-link';
-            break;
+
           case 'Attractions':
             iconName = Platform.OS === 'ios'
               ? `ios-information-circle${focused ? '' : '-outline'}`
               : 'md-information-circle';
-          case 'Settings':
-            iconName = Platform.OS === 'ios'
-              ? `ios-options${focused ? '' : '-outline'}`
-              : 'md-options';
+              break;
+          default:
+            return null;
         }
         return (
           <Ionicons
@@ -62,7 +52,7 @@ export default TabNavigator(
     }),
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
-    animationEnabled: false,
+    animationEnabled: true,
     swipeEnabled: false,
   }
 );

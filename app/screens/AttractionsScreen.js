@@ -10,11 +10,18 @@ export default class AttractionsScreen extends React.Component {
       title: 'Attractions',
    };
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <ScrollView style={styles.container}>
         <Content>
           {_.map(propsAsState, attraction =>
             <AttractionCard
+              handleOnPress={() => {
+                navigate('AttractionInfoScreen',
+                { name: attraction.name,
+                  imageURI: attraction.imageURI,
+                });
+              }}
               key={attraction.name}
               name={attraction.name}
               imageURI={attraction.imageURI}/>
