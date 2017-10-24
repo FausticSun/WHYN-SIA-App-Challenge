@@ -26,6 +26,8 @@
     "redux-persist": "^5.0.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-flow": "^6.23.0",
     "jest-expo": "^22.0.0"
   }
 }
