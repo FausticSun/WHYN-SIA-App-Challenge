@@ -39,6 +39,7 @@ class App extends React.Component {
       Asset.loadAsync([
         require('./assets/images/robot-dev.png'),
         require('./assets/images/robot-prod.png'),
+        require('./assets/images/sia-logo.jpg'),
       ]),
       Font.loadAsync({
         Roboto: require("native-base/Fonts/Roboto.ttf"),
