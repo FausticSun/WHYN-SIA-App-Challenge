@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image } from 'react-native';
-import { Content } from 'native-base';
+import { Content, Button, Text } from 'native-base';
 import Colors from '../constants/Colors';
 
 class WelcomeScreen extends React.Component {
@@ -16,17 +16,21 @@ class WelcomeScreen extends React.Component {
         }}
         contentContainerStyle={{
           flex: 1,
-          flexDirection: 'row',
+          flexDirection: 'column',
           justifyContent: 'center',
-          alignItems: 'center'
+          alignItems: 'center',
         }}
       >
         <Image
           style={{
             width: '75%',
+            height: '60%',
           }}
           resizeMode='contain'
           source={require('../../assets/images/sia-logo.jpg')} />
+        <Button style={{ alignSelf: 'center' }}>
+          <Text>Scan QR Code</Text>
+        </Button>
       </Content>
     );
   }
