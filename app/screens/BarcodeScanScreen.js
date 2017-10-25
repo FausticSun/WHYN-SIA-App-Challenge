@@ -4,7 +4,7 @@ import {Constants, BarCodeScanner, Permissions} from 'expo';
 
 export default class BarcodeScanScreen extends React.Component {
   static navigationOptions = {
-    title: 'Scan Boarding Pass',
+    title: 'Scan Barcode Pass',
   };
 
   state = {
