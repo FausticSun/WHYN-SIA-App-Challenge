@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Image, ScrollView, StyleSheet  } from 'react-native';
-import { Text, Card, CardItem, Left, Right, Icon, Container, Header, Content, Tab, Tabs} from 'native-base';
+import { Image, ScrollView, StyleSheet } from 'react-native';
+import { Header, Left, Body, Right, Title, Icon,
+  Text, Card, CardItem, Container, Content, Tab, Tabs } from 'native-base';
 
 
 const styles = StyleSheet.create({
@@ -12,15 +13,22 @@ const styles = StyleSheet.create({
 });
 
 export default class AttractionInfoScreen extends React.Component {
-  static navigationOptions= ({ navigation }) => ({
-    headerTitle: navigation.state.params.name,
-    headerRight: (
-      <Icon
-      style={{ paddingLeft: 10, fontSize: 40}}
-      name='arrow-down'
-      onPress={() => navigation.goBack(null)}/>
-    )
+  static navigationOptions = ({ navigation }) => ({
+    header: (
+      <Header>
+        <Left />
+        <Body><Title>{navigation.state.params.name}</Title></Body>
+        <Right>
+          <Icon
+            style={{ paddingLeft: 10, fontSize: 40}}
+            name='arrow-down'
+            onPress={() => navigation.goBack(null)}
+          />
+        </Right>
+      </Header>
+    ),
   });
+
   render() {
 
     const { params } = this.props.navigation.state

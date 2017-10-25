@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Header, Left, Body, Title } from 'native-base';
+import { Header, Left, Body, Right, Title } from 'native-base';
 import { WebBrowser } from 'expo';
 import { connect } from 'react-redux';
 

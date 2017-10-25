@@ -1,6 +1,6 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
-import {Button} from 'native-base';
+import { Text, View, StyleSheet } from 'react-native';
+import { Header, Left, Body, Right, Title, Button } from 'native-base';
 import MapView from 'react-native-maps';
 import BUS_ROUTE from '../constants/BusRoute';
 import STOP_HOLDER from '../constants/StopHolders';
@@ -9,7 +9,12 @@ let id = 0;
 
 export default class MapScreen extends React.Component {
   static navigationOptions = {
-    title: 'Map',
+    header: (
+      <Header>
+        <Left />
+        <Body><Title>Map</Title></Body>
+      </Header>
+    ),
   };
 
   constructor(props) {
