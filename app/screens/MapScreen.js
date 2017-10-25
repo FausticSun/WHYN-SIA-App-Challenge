@@ -1,9 +1,10 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
-import {Button} from 'native-base';
+import { Container, Button} from 'native-base';
 import MapView from 'react-native-maps';
 import BUS_ROUTE from '../constants/BusRoute';
 import STOP_HOLDER from '../constants/StopHolders';
+import BusCarousel from '../components/BusCarousel';
 
 let id = 0;
 
@@ -14,21 +15,21 @@ export default class MapScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    
+
     this.state = {
       initialRegion: { // current location
         latitude: 1.2950416,
         longitude: 103.7717378,
       },
       busRoute: BUS_ROUTE,
-      busStops: STOP_HOLDER
+      busStops: STOP_HOLDER,
     };
-
   }
 
-  render() {  
+  render() {
     return (
 
+    <Container>
     <View style={styles.container}>
       <MapView
         style={styles.map}
@@ -46,10 +47,10 @@ export default class MapScreen extends React.Component {
           fillColor="rgba(255,0,0,0.5)"
           strokeWidth={3}
         />
- 
+
         <MapView.Marker
           coordinate={{ // current location
-            latitude: 1.2950416, 
+            latitude: 1.2950416,
             longitude: 103.7717378,
           }}
           title={'You are here'}
@@ -71,7 +72,7 @@ export default class MapScreen extends React.Component {
 
         <MapView.Marker // Changi Airport
           coordinate={{ // current location
-            latitude: 1.3554069, 
+            latitude: 1.3554069,
             longitude: 103.9837081,
           }}
         >
@@ -82,19 +83,29 @@ export default class MapScreen extends React.Component {
         </MapView.Marker>
 
       </MapView>
+      </View>
+      <View style={{
+        bottom: 0,
+        left: 0,
+        flex: 1,
+        position: 'absolute',
+        height: 110,
+      }}>
+        <BusCarousel stops={STOP_HOLDER}/>
+      </View>
 
-    </View>
+    </Container>
     );
   }
 };
- 
+
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: 0,
     left: 0,
-    right: 0,
     bottom: 0,
+    right: 0,
     justifyContent: 'flex-end',
     alignItems: 'center',
   },

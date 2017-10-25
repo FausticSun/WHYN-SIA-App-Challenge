@@ -11,6 +11,7 @@ import {
 import { WebBrowser } from 'expo';
 import { connect } from 'react-redux';
 import { MonoText } from '../components/StyledText';
+import BusCarousel from '../components/BusCarousel';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -47,6 +48,7 @@ class HomeScreen extends React.Component {
               <MonoText style={styles.codeHighlightText}>
                 screens/HomeScreen.js
               </MonoText>
+              <BusCarousel/>
             </View>
 
             <Text style={styles.getStartedText}>

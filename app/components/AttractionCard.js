@@ -13,23 +13,20 @@ export default class AttractionCard extends React.Component {
       <TouchableOpacity onPress={handleOnPress}>
             <Card style={{padding: 0, backgroundColor: "red"}}>
               <CardItem
-                style={
-                  {
-                    paddingTop: 0,
-                    paddingLeft: 0,
-                    paddingRight: 0,
-                    paddingBottom: 0,
-                    height: 150,
-                  }
-                }>
+                style={{
+                  paddingTop: 0,
+                  paddingLeft: 0,
+                  paddingRight: 0,
+                  paddingBottom: 0,
+                  height: 150,
+                }}>
                 <Image
-                  style={
-                    {
+                  style={{
                       height: '100%',
                       width: '100%',
-                    }
-                  }
-                  source={{uri: imageURI}}>
+                  }}
+                  source={{uri: imageURI}}
+                >
                   <Text style={{color: 'white'}}>{name}</Text>
                  </Image>
               </CardItem>
