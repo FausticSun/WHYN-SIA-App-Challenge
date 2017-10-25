@@ -1,7 +1,8 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Container, Header, Content, Footer } from 'native-base';
 import { ApolloProvider } from 'react-apollo';
-import { AppLoading, Asset, Font } from 'expo';
+import { AppLoading, Asset, Font, Constants } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import RootNavigation from './app/navigation/RootNavigation';

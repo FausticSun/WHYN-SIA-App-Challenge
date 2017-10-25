@@ -8,12 +8,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { Header, Left, Body, Title } from 'native-base';
 import { WebBrowser } from 'expo';
 import { connect } from 'react-redux';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    header: (
+      <Header>
+        <Left />
+        <Body><Title>Main Page</Title></Body>
+      </Header>
+    ),
   };
 
   render() {
