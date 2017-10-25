@@ -6,23 +6,19 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 import Colors from '../constants/Colors';
 
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
 import BarcodeScanScreen from '../screens/BarcodeScanScreen';
-import MapScreen from '../screens/MapScreen';
+import BusRoutesScreen from '../screens/BusRoutesScreen';
 
 export default TabNavigator(
   {
     Home: {
       screen: HomeScreen,
     },
-    Links: {
-      screen: LinksScreen,
-    },
     ScanBarcode: {
       screen: BarcodeScanScreen,
     },
-    Map: {
-      screen: MapScreen,
+    BusRoutes: {
+      screen: BusRoutesScreen,
     }
   },
   {

@@ -19,7 +19,7 @@ export default class BusRoutesScreen extends React.Component {
       },
       busRoute: [{BUS_ROUTE_1}], // will have array of bus routes
       busStops: [{STOP_HOLDER_1}], // will have array of bus routes bus stops
-      activeStops: STOP_HOLDER_1, // default
+      activeStops: STOP_HOLDER_1, // default value; route in which busstops markers are displayed (will change onpress route)
       activeRoute: 0, // default
     };
 
@@ -44,7 +44,7 @@ export default class BusRoutesScreen extends React.Component {
         showsMyLocationButton={true}
       >
 
-        <MapView.Polyline // BUS ROUTE
+        <MapView.Polyline // Bus routes
           coordinates={BUS_ROUTE_1}
           strokeColor="#2e00ff"
           fillColor="rgba(255,0,0,0.5)"
@@ -57,10 +57,8 @@ export default class BusRoutesScreen extends React.Component {
           }
         />
 
-        {console.log(displayStops)}
-
         {
-          displayStops.map((marker) => ( // BUS STOPS
+          displayStops.map((marker) => ( // Bus stops markers for active route
             <MapView.Marker
               key={marker.StopNum}
               coordinate={marker.Coord}
