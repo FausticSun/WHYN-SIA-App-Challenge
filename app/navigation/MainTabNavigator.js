@@ -6,7 +6,6 @@ import { Footer, FooterTab, Button, Icon, Text } from 'native-base';
 import Colors from '../constants/Colors';
 
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
 import AttractionsNavigator from './AttractionsNavigator';
 import BarcodeScanScreen from '../screens/BarcodeScanScreen';
 import MapScreen from '../screens/MapScreen';
