@@ -1,11 +1,10 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Image, Text, View, StyleSheet} from 'react-native';
 import {Constants, BarCodeScanner, Permissions} from 'expo';
-import {BlurView, VibrancyView} from 'react-native-blur';
 
 export default class BarcodeScanScreen extends React.Component {
   static navigationOptions = {
-    title: 'Scan Barcode',
+    title: 'Scan Boarding Pass',
   };
 
   state = {
@@ -55,20 +54,40 @@ export default class BarcodeScanScreen extends React.Component {
           </Text> :
           <BarCodeScanner
             onBarCodeRead={this.handleBarCodeRead}
-            style={{height:250, width: 450}}
-          />
+            style={{height:700, width: 500}}
+          > 
+            <View style={styles.frame}>
+              <Text style={styles.info}> Please scan your boarding pass to begin </Text>
+              <Image source={require('../../scanner_frame.jpg')} style={styles.image} />
+            </View>
+
+          </BarCodeScanner>
         }
+
       </View>
     )
   }
-}
+} 
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: 'transparent',
+    position: 'relative',
+  },
+  frame: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    
+  },
+  info: {
+    fontWeight: 'bold',
+  },
+  image: {
+    height: 300,
+    width: 470,
   }
+
 });
