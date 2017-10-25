@@ -51,6 +51,7 @@ class HomeScreen extends React.Component {
               ]}>
               <Text style={styles.codeHighlightText}>
                 screens/HomeScreen.js
+              </Text>
             </View>
 
             <Text style={styles.getStartedText}>
