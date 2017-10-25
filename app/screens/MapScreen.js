@@ -2,12 +2,12 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Header, Left, Body, Right, Title, Button } from 'native-base';
 import MapView from 'react-native-maps';
-import BUS_ROUTE from '../constants/BusRoute';
-import STOP_HOLDER from '../constants/StopHolders';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 let id = 0;
 
-export default class MapScreen extends React.Component {
+class MapScreen extends React.Component {
   static navigationOptions = {
     header: (
       <Header>
@@ -19,22 +19,45 @@ export default class MapScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    
     this.state = {
       initialRegion: { // current location
         latitude: 1.2950416,
         longitude: 103.7717378,
       },
-      busRoute: BUS_ROUTE,
-      busStops: STOP_HOLDER
     };
-
   }
-
-  render() {  
+  renderRoute() {
+    if(this.props.data.loading == false){
+      return (<MapView.Polyline // BUS ROUTE
+        coordinates={this.props.data.allBusRoutes[0].lineString}
+        strokeColor="#2e00ff"
+        fillColor="rgba(255,0,0,0.5)"
+        strokeWidth={3}
+      />);
+    }
+  }
+  renderMarkers() {
+    if(this.props.data.loading == false) {
+      const markers = this.props.data.allBusRoutes[0].placeMarks.map((marker) => (
+        <MapView.Marker
+          key={marker.StopNum}
+          coordinate={marker.Coord}
+          title={marker.Name}
+          description={'Bus Stop No.: ' + marker.StopNum}
+          pinColor={"#2e00ff"}
+        />
+      ));
+      return markers;
+    } else{
+      return (<View></View>);
+    }
+  }
+  render() {
     return (
 
     <View style={styles.container}>
+      
+  
       <MapView
         style={styles.map}
         initialRegion={ {
@@ -45,12 +68,8 @@ export default class MapScreen extends React.Component {
         }}
         showsMyLocationButton={true}
       >
-        <MapView.Polyline // BUS ROUTE
-          coordinates={BUS_ROUTE}
-          strokeColor="#2e00ff"
-          fillColor="rgba(255,0,0,0.5)"
-          strokeWidth={3}
-        />
+        
+        {this.renderRoute()}
  
         <MapView.Marker
           coordinate={{ // current location
@@ -63,23 +82,14 @@ export default class MapScreen extends React.Component {
             <View style={styles.marker}/>
           </View>
         </MapView.Marker>
-
-        {this.state.busStops.map((marker) => (
-            <MapView.Marker
-              key={marker.StopNum}
-              coordinate={marker.Coord}
-              title={marker.Name}
-              description={'Bus Stop No.: ' + marker.StopNum}
-              pinColor={"#2e00ff"}
-            />
-          ))}
-
+        {this.renderMarkers()}
         <MapView.Marker // Changi Airport
           coordinate={{ // current location
             latitude: 1.3554069, 
             longitude: 103.9837081,
           }}
         >
+         
           <MapView.Callout
             tooltip={true}
             description={"hi"}
@@ -92,7 +102,10 @@ export default class MapScreen extends React.Component {
     );
   }
 };
- 
+const RoutesQuery = gql`query MyQuery { allBusRoutes { color, id, lineString, placeMarks }}`;
+export default graphql(RoutesQuery)(MapScreen);
+
+
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
