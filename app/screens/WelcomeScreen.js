@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image } from 'react-native';
 import { Content, Button, Text } from 'native-base';
+import { NavigationActions } from 'react-navigation';
 import Colors from '../constants/Colors';
 
 class WelcomeScreen extends React.Component {
@@ -28,7 +29,14 @@ class WelcomeScreen extends React.Component {
           }}
           resizeMode='contain'
           source={require('../../assets/images/sia-logo.jpg')} />
-        <Button style={{ alignSelf: 'center' }}>
+        <Button
+          style={{ alignSelf: 'center' }}
+          onPress={() => this.props.navigation.dispatch(
+            NavigationActions.reset({
+              index: 0,
+              actions: [NavigationActions.navigate({ routeName: 'Main' })],
+            }))}
+        >
           <Text>Scan QR Code</Text>
         </Button>
       </Content>
