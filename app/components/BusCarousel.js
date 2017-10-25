@@ -54,6 +54,11 @@ export default class BusCarousel extends React.Component {
            renderItem={this._renderItem}
            sliderWidth={viewportWidth}
            itemWidth={300}
+           onSnapToItem={
+             (index) => {
+               this.props.onSnap(stops[index].Coord.latitude, stops[index].Coord.longitude);
+             }
+           }
          />
      );
    }

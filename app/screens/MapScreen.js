@@ -23,7 +23,14 @@ export default class MapScreen extends React.Component {
       },
       busRoute: BUS_ROUTE,
       busStops: STOP_HOLDER,
+      callout: {latitude: 0, longitude: 0}
     };
+  }
+
+  focusStop(lat, long) {
+    this.setState({region: {latitude: lat, longitude: long, latitudeDelta: 0.02,
+    longitudeDelta: 0.0005,}, callout: {latitude: lat, longitude: long}});
+
   }
 
   render() {
@@ -39,6 +46,8 @@ export default class MapScreen extends React.Component {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.00421,
         }}
+        region={this.state.region}
+        onRegionChange={(region)=>{this.setState({region})}}
         showsMyLocationButton={true}
       >
         <MapView.Polyline // BUS ROUTE
@@ -67,6 +76,7 @@ export default class MapScreen extends React.Component {
               title={marker.Name}
               description={'Bus Stop No.: ' + marker.StopNum}
               pinColor={"#2e00ff"}
+              showCallout
             />
           ))}
 
@@ -75,12 +85,12 @@ export default class MapScreen extends React.Component {
             latitude: 1.3554069,
             longitude: 103.9837081,
           }}
-        >
+        />
           <MapView.Callout
             tooltip={true}
             description={"hi"}
           />
-        </MapView.Marker>
+
 
       </MapView>
       </View>
@@ -91,7 +101,7 @@ export default class MapScreen extends React.Component {
         position: 'absolute',
         height: 110,
       }}>
-        <BusCarousel stops={STOP_HOLDER}/>
+        <BusCarousel onSnap={this.focusStop.bind(this)} stops={STOP_HOLDER}/>
       </View>
 
     </Container>
