@@ -1,7 +1,10 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { Header, Left, Body, Right, Title, Button } from 'native-base';
+import { Header, Left, Body, Right, Title, Button, Container } from 'native-base';
 import MapView from 'react-native-maps';
+import BUS_ROUTE from '../constants/BusRoute';
+import STOP_HOLDER from '../constants/StopHolders';
+import BusCarousel from '../components/BusCarousel';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -19,13 +22,23 @@ class MapScreen extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       initialRegion: { // current location
         latitude: 1.2950416,
         longitude: 103.7717378,
       },
+      busRoute: BUS_ROUTE,
+      busStops: STOP_HOLDER,
     };
   }
+
+  focusStop(lat, long) {
+    this.setState({region: {latitude: lat, longitude: long, latitudeDelta: 0.02,
+    longitudeDelta: 0.0005,}, callout: {latitude: lat, longitude: long}});
+
+  }
+
   renderRoute() {
     if(this.props.data.loading == false){
       return (<MapView.Polyline // BUS ROUTE
@@ -36,6 +49,7 @@ class MapScreen extends React.Component {
       />);
     }
   }
+
   renderMarkers() {
     if(this.props.data.loading == false) {
       const markers = this.props.data.allBusRoutes[0].placeMarks.map((marker) => (
@@ -52,9 +66,11 @@ class MapScreen extends React.Component {
       return (<View></View>);
     }
   }
+
   render() {
     return (
 
+    <Container>
     <View style={styles.container}>
       
   
@@ -66,6 +82,8 @@ class MapScreen extends React.Component {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.00421,
         }}
+        region={this.state.region}
+        onRegionChange={(region)=>{this.setState({region})}}
         showsMyLocationButton={true}
       >
         
@@ -73,7 +91,7 @@ class MapScreen extends React.Component {
  
         <MapView.Marker
           coordinate={{ // current location
-            latitude: 1.2950416, 
+            latitude: 1.2950416,
             longitude: 103.7717378,
           }}
           title={'You are here'}
@@ -85,20 +103,29 @@ class MapScreen extends React.Component {
         {this.renderMarkers()}
         <MapView.Marker // Changi Airport
           coordinate={{ // current location
-            latitude: 1.3554069, 
+            latitude: 1.3554069,
             longitude: 103.9837081,
           }}
-        >
-         
+        />
           <MapView.Callout
             tooltip={true}
             description={"hi"}
           />
-        </MapView.Marker>
+
 
       </MapView>
+      </View>
+      <View style={{
+        bottom: 0,
+        left: 0,
+        flex: 1,
+        position: 'absolute',
+        height: 110,
+      }}>
+        <BusCarousel onSnap={this.focusStop.bind(this)} stops={STOP_HOLDER}/>
+      </View>
 
-    </View>
+    </Container>
     );
   }
 };
@@ -111,8 +138,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    right: 0,
     bottom: 0,
+    right: 0,
     justifyContent: 'flex-end',
     alignItems: 'center',
   },

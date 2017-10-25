@@ -7,6 +7,7 @@ export default AttractionsNavigator = StackNavigator({
   Attractions: { screen: AttractionsScreen },
   AttractionInfoScreen: { screen: AttractionInfoScreen },
 }, {
+    header: 'null',
      headerMode: 'none',
-     mode: 'modal',
+     mode: 'modal'
    });
