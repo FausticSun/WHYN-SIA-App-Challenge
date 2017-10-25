@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
+import { Footer, FooterTab, Button, Icon, Text } from 'native-base';
 
 import Colors from '../constants/Colors';
 
@@ -27,38 +27,40 @@ export default TabNavigator(
     }
   },
   {
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        switch (routeName) {
-          case 'Home':
-          case 'Attractions':
-            iconName = Platform.OS === 'ios'
-              ? `ios-information-circle${focused ? '' : '-outline'}`
-              : 'md-information-circle';
-            break;
-          case 'ScanBarcode':
-            iconName = Platform.OS === 'ios'
-              ? `ios-options${focused ? '' : '-outline'}`
-              : 'md-options';
-          case 'Map':
-            iconName = Platform.OS === 'ios'
-              ? `ios-information-circle${focused ? '' : '-outline'}`
-              : 'md-information-circle';
-              break;
-        }
-        return (
-          <Ionicons
-            name={iconName}
-            size={28}
-            style={{ marginBottom: -3 }}
-            color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
-          />
-        );
-      },
-    }),
-    tabBarComponent: TabBarBottom,
+    tabBarComponent: props => (
+      <Footer>
+        <FooterTab>
+          <Button
+            vertical
+            active={props.navigation.index === 0}
+            onPress={() => props.navigation.navigate("Home")}>
+            <Icon name="home" />
+            <Text style={{ fontSize: 8 }}>Home</Text>
+          </Button>
+          <Button
+            vertical
+            active={props.navigation.index === 1}
+            onPress={() => props.navigation.navigate("Attractions")}>
+            <Icon name="flag" />
+            <Text style={{ fontSize: 8 }}>Attractions</Text>
+          </Button>
+          <Button
+            vertical
+            active={props.navigation.index === 2}
+            onPress={() => props.navigation.navigate("ScanBarcode")}>
+            <Icon name="barcode" />
+            <Text style={{ fontSize: 8 }}>Barcode</Text>
+          </Button>
+          <Button
+            vertical
+            active={props.navigation.index === 3}
+            onPress={() => props.navigation.navigate("Map")}>
+            <Icon name="map" />
+            <Text style={{ fontSize: 8 }}>Map</Text>
+          </Button>
+        </FooterTab>
+      </Footer>
+    ),
     tabBarPosition: 'bottom',
     animationEnabled: true,
     swipeEnabled: false,

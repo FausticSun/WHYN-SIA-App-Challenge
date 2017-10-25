@@ -13,12 +13,7 @@ const App = () => (
     loading={<AppLoading />}
     >
     <ApolloProvider store={store} client={client}>
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        {Platform.OS === 'android' &&
-          <View style={styles.statusBarUnderlay} />}
-        <RootNavigation />
-      </View>
+      <RootNavigation />
     </ApolloProvider>
   </PersistGate>
 );
