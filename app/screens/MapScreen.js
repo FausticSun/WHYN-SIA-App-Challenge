@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { Header, Left, Body, Right, Title, Button, Container } from 'native-base';
+import { Header, Left, Body, Right, Title, Button, Container, Spinner } from 'native-base';
 import MapView from 'react-native-maps';
 import BUS_ROUTE from '../constants/BusRoute';
 import STOP_HOLDER from '../constants/StopHolders';
@@ -72,8 +72,8 @@ class MapScreen extends React.Component {
 
     <Container>
     <View style={styles.container}>
-      
-  
+
+
       <MapView
         style={styles.map}
         initialRegion={ {
@@ -86,9 +86,9 @@ class MapScreen extends React.Component {
         onRegionChange={(region)=>{this.setState({region})}}
         showsMyLocationButton={true}
       >
-        
+
         {this.renderRoute()}
- 
+
         <MapView.Marker
           coordinate={{ // current location
             latitude: 1.2950416,
@@ -121,8 +121,10 @@ class MapScreen extends React.Component {
         flex: 1,
         position: 'absolute',
         height: 110,
-      }}>
-        <BusCarousel onSnap={this.focusStop.bind(this)} stops={STOP_HOLDER}/>
+      }}>{ this.props.data.loading ? <Spinner/> :
+        <BusCarousel onSnap={this.focusStop.bind(this)} stops={this.props.data.allBusRoutes[0]}/>
+      }
+
       </View>
 
     </Container>
