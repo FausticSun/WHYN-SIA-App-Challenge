@@ -20,20 +20,6 @@ class BarcodeScanScreen extends React.Component {
     customer: null,
   }
 
-  async componentWillMount() { // will be in main
-    this.requestCameraPermission();
-  }
-
-  componentDidMount() {
-   if(!this.state.hasCameraPermission)
-    this.requestCameraPermission();
-  }
-
-  requestCameraPermission = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({hasCameraPermission: status === 'granted'});
-  }
-
   handleBarCodeRead = async ({type, data}) => {
     if (this.state.canScan) {
       this.setState({canScan: false});
