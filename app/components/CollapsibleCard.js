@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Image, TouchableHighlight, Animated, Dimensions, ScrollView } from 'react-native';
 import { Card, Icon, CardItem, Text, Spinner, Container, Content } from 'native-base';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
-
+import { NavigationActions } from 'react-navigation';
 
 export default class CollapsibleCard extends React.Component{
   constructor(props){
@@ -12,6 +12,8 @@ export default class CollapsibleCard extends React.Component{
       animation : new Animated.Value(),
     };
   }
+
+
 
   setTopHeight(event){
     this.setState({
@@ -58,21 +60,24 @@ export default class CollapsibleCard extends React.Component{
     this.setState((prev)=>({expanded: !prev.expanded}));
   }
 
-  componentDidUpdate(prevProps, prevState) {
 
-    if(prevProps.title == this.props.title) {
-      return;
-    }
-
+  componentWillReceiveProps(nextProps) {
+    this.state.animation.setValue(-500);
+    Animated.spring(
+          this.state.animation,
+          {
+              toValue: -this.state.botHeight
+          }
+      ).start();
   }
 
 
-
     render() {
-      const { title, description, imageURI } = this.props;
+      const { title, description, imageURI, navigation } = this.props;
+
 
       return (
-        <Animated.View style={{position: 'absolute', bottom: this.state.animation}}>
+        <Animated.View style={{position: 'absolute', overflow: 'scroll', bottom: this.state.animation}}>
 
         <Card>
           <View
@@ -87,15 +92,13 @@ export default class CollapsibleCard extends React.Component{
             paddingBottom: 0,
           }}>
           <TouchableHighlight
-          style={{
-            height: '100%',
-            width: '100%'
-          }}
-                        onPress={this.toggle.bind(this)}
-                        underlayColor="#f1f1f1">
-
+            style={{
+              height: '100%',
+              width: '100%'
+            }}
+            onPress={this.toggle.bind(this)}
+            underlayColor="#f1f1f1">
             <Image
-
               style={{
                 height: '100%',
                 width: '100%'
