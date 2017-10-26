@@ -8,80 +8,60 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Header, Left, Body, Right, Title } from 'native-base';
-import { WebBrowser } from 'expo';
-import { connect } from 'react-redux';
+import { Card, CardItem, Content, Header, Left, Body, Right, Spinner, Title } from 'native-base';
+import { Col, Row, Grid } from 'react-native-easy-grid';
 
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import QRCode from 'react-native-qrcode';
+const redemptionQR = "093cin209n2093icn092eni ";
 class HomeScreen extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      text: "lmao"
+    };
+  }
+ 
   static navigationOptions = {
     header: (
       <Header>
         <Left />
-        <Body><Title>Main Page</Title></Body>
+        <Body><Title>Singapore Stopover Holiday</Title></Body>
       </Header>
     ),
   };
+  renderQR(){
+    if(this.props.data.loading){
+      return (<Spinner />);
+    } else {
+      return (
+       
+            
+            <QRCode
+              value={this.props.data.Customer.ticketQR}
+              size={200}
+              bgColor='black'
+              fgColor='white'
+            />
+          
+      );
+    }
+  }
 
   render() {
     return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../../assets/images/robot-dev.png')
-                  : require('../../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-          </View>
-
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View
-              style={[
-                styles.codeHighlightContainer,
-                styles.homeScreenFilename,
-              ]}>
-              <Text style={styles.codeHighlightText}>
-                screens/HomeScreen.js
-              </Text>
-            </View>
-
-            <Text style={styles.getStartedText}>
-              { this.props.customer ? this.props.customer.name : "No Data" }
-            </Text>
-          </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity
-              onPress={this._handleHelpPress}
-              style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>
-                Help, it didn’t automatically reload!
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>
-            This is a tab bar. You can edit it in:
-          </Text>
-          <View
-            style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <Text style={styles.codeHighlightText}>
-              navigation/MainTabNavigator.js
-            </Text>
-          </View>
-        </View>
-      </View>
+      <Content>
+        <Card>
+          <CardItem>
+            <Grid>
+              <Col style={{ width: 61, height: 200 }}></Col>
+              <Col style={{ height: 200 }}>{ this.renderQR() }</Col>
+              <Col style={{ width: 61, height: 200 }}></Col>
+            </Grid>
+          </CardItem>
+        </Card>
+      </Content>
     );
   }
 
@@ -107,27 +87,15 @@ class HomeScreen extends React.Component {
       );
     }
   }
-
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/development-mode'
-    );
-  };
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
 }
 
-export default connect(
-)(HomeScreen);
+const CustomerQuery = gql`query MyQuery { Customer(redemptionQR: \"${redemptionQR}\" ){name, numTix, ticketQR}}`;
+export default graphql(CustomerQuery)(HomeScreen);
+
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+
   },
   developmentModeText: {
     marginBottom: 20,
@@ -211,4 +179,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  mine: {
+    marginLeft: "auto",
+    marginRight: "auto"
+  }
 });
