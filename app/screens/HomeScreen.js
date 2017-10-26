@@ -36,15 +36,12 @@ class HomeScreen extends React.Component {
       return (<Spinner />);
     } else {
       return (
-       
-            
-            <QRCode
-              value={this.props.data.Customer.ticketQR}
-              size={200}
-              bgColor='black'
-              fgColor='white'
-            />
-          
+        <QRCode
+          value={this.props.data.Customer.ticketQR}
+          size={200}
+          bgColor='black'
+          fgColor='white'
+        />
       );
     }
   }
@@ -52,13 +49,14 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <Content>
-        <Card>
-          <CardItem>
-            <Grid>
-              <Col style={{ width: 61, height: 200 }}></Col>
-              <Col style={{ height: 200 }}>{ this.renderQR() }</Col>
-              <Col style={{ width: 61, height: 200 }}></Col>
-            </Grid>
+        <Card style={{flex:1, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent'}}>
+
+          <CardItem style={{backgroundColor: 'transparent'}}>
+            <Text> Show this QRCode to gain access to Attractions!</Text>
+          </CardItem>
+
+          <CardItem style={{marginBottom: 15}}>
+            {this.renderQR()}
           </CardItem>
         </Card>
       </Content>
