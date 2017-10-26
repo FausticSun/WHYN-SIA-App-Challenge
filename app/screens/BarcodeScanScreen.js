@@ -3,6 +3,7 @@ import { Image, Text, View, StyleSheet} from 'react-native';
 import { Header, Left, Body, Right, Title, Content } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Constants, BarCodeScanner, Permissions } from 'expo';
+import { withApollo, gql } from 'react-apollo';
 
 class BarcodeScanScreen extends React.Component {
   static navigationOptions = {
@@ -12,7 +13,8 @@ class BarcodeScanScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     canScan: true,
-    isError: false,
+    message: 'standard',
+    customer: null,
   }
 
   async componentWillMount() { // will be in main
@@ -29,20 +31,41 @@ class BarcodeScanScreen extends React.Component {
     this.setState({hasCameraPermission: status === 'granted'});
   }
 
-  handleBarCodeRead = ({type, data}) => {
+  handleBarCodeRead = async ({type, data}) => {
     if (this.state.canScan) {
       this.setState({canScan: false});
+      this.setState({message: 'loading'});
+      const queryData = await this.props.client.query({
+        query: gql`
+          query {
+            Customer(redemptionQR: \"${data}\") {
+              ticketQR
+            }
+          }
+        `,
+      });
+      if (queryData.data.Customer === null) {
+        this.setState({message: 'error'});
+      } else {
+        this.setState({message: 'success'});
+      }
       this.setState({canScan: true});
     }
   }
 
-  renderStandardMessage = () => (
-    <Text style={{ color: 'white', textAlign: 'center' }}>Please scan your redemption QR Code</Text>
-  );
-
-  renderErrorMessage = () => (
-    <Text style={{ color: 'white', textAlign: 'center' }}>Invalid QR!</Text>
-  );
+  renderMessage = () => {
+    switch(this.state.message) {
+      case 'loading':
+        return (<Text style={{ color: 'yellow', textAlign: 'center' }}>Checking QR</Text>);
+      case 'error':
+        return (<Text style={{ color: 'red', textAlign: 'center' }}>Invalid QR!</Text>);
+      case 'success':
+        return (<Text style={{ color: 'green', textAlign: 'center' }}>Successfully Validated!</Text>);
+      case 'standard':
+      default:
+        return (<Text style={{ color: 'white', textAlign: 'center' }}>Please scan your redemption QR Code</Text>);
+    }
+  }
 
   render() {
     return (
@@ -53,11 +76,11 @@ class BarcodeScanScreen extends React.Component {
         />
         <Grid contentContainerStyle={{ flex: 1 }}>
           <Col style={styles.translucent}></Col>
-          <Col style={{ width: 250 }}>
+          <Col style={{ width: 350 }}>
             <Row style={styles.translucent}></Row>
-            <Row style={{ height: 250 }}></Row>
+            <Row style={{ height: 350 }}></Row>
             <Row style={styles.translucent}>
-              { this.state.isError ? this.renderErrorMessage() : this.renderStandardMessage() }
+              { this.renderMessage() }
             </Row>
           </Col>
           <Col style={styles.translucent}></Col>
@@ -80,4 +103,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default BarcodeScanScreen;
+export default withApollo(BarcodeScanScreen);
