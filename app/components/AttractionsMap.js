@@ -1,11 +1,17 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { Header, Left, Body, Right, Title, Button, Container } from 'native-base';
+import { Header, Left, Body, Right, Title, Button, Container, Spinner } from 'native-base';
 import MapView from 'react-native-maps';
 import BUS_ROUTE from '../constants/BusRoute';
 import STOP_HOLDER from '../constants/StopHolders';
+import CollapsibleCard from './CollapsibleCard';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import _ from 'lodash';
+import { uriMap } from './AttractionsList';
 
-export default class AttractionsMap extends React.Component {
+
+class AttractionsMap extends React.Component {
 
   constructor(props) {
     super(props);
@@ -15,60 +21,80 @@ export default class AttractionsMap extends React.Component {
         latitude: 1.2950416,
         longitude: 103.7717378,
       },
-      busRoute: BUS_ROUTE,
-      busStops: STOP_HOLDER,
     };
   }
 
-  focusStop(lat, long) {
-    this.setState({region: {latitude: lat, longitude: long, latitudeDelta: 0.02,
-    longitudeDelta: 0.0005,}, callout: {latitude: lat, longitude: long}});
-
-  }
-
   render() {
+    const { params } = this.props.navigation.state;
+
+    if (this.props.data.loading) {
+      return <Spinner/>;
+    }
+
+    let inner = <Spinner/>;
+    if(params != null) {
+      inner = (<CollapsibleCard
+        title={params.name}
+        imageURI={params.imageURI}
+        lat={0}
+        long={0}
+        description={params.description}
+        url={params.url}
+      />);
+    }
     return (
-    <Container>
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={ {
-          latitude: 1.2950416,
-          longitude: 103.7717378,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.00421,
-        }}
-        region={this.state.region}
-        onRegionChange={(region)=>{this.setState({region})}}
-        showsMyLocationButton={true}
-      >
-        <MapView.Marker
-          coordinate={{ // current location
-            latitude: 1.2950416,
-            longitude: 103.7717378,
-          }}
-          title={'You are here'}
-        >
-          <View style={styles.radius}>
-            <View style={styles.marker}/>
-          </View>
-        </MapView.Marker>
-        <MapView.Marker // Changi Airport
-          coordinate={{ // current location
-            latitude: 1.3554069,
-            longitude: 103.9837081,
-          }}
-        />
-          <MapView.Callout
-            tooltip={true}
-            description={"hi"}
-          />
-      </MapView>
-      </View>
-    </Container>
+      <Container>
+        <View style={styles.container}>
+          <MapView
+            style={styles.map}
+            region={{
+              latitude: params.latitude,
+              longitude: params.longitude,
+              latitudeDelta: 0.02,
+              longitudeDelta: 0.0005,
+            }}>
+
+            <View style={styles.marker}>
+              {_.map(this.props.data.allAttractions, attraction =>
+                <MapView.Marker
+                  key={attraction.id}
+                  coordinate={{
+                    longitude: attraction.longitude,
+                    latitude: attraction.latitude,
+                  }}
+                  title={attraction.name}
+                  description={attraction.addressString}
+                  pinColor={"#2e00ff"}
+                  onPress={
+                    ()=>{
+                      this.props.navigation.state.params.latitude = attraction.latitude;
+                      this.props.navigation.state.params.longitude = attraction.longitude;
+                      this.props.navigation.state.params.description = attraction.description;
+                      this.props.navigation.state.params.imageURI = uriMap[attraction.id];
+                      this.props.navigation.state.params.url = attraction.url;
+                      this.props.navigation.state.params.name = attraction.name;
+
+                      this.forceUpdate();
+                    }
+                  }
+                />
+
+              )}
+            </View>
+          </MapView>
+          {inner}
+        </View>
+      </Container>
     );
   }
 };
+
+//to cut down
+const AttractionQuery = gql`query { allAttractions {
+  addressString, description, directions, id, inclusion, latitude, longitude, name, operatingHours, redemptionDetails, specialHours, url }}`;
+export default graphql(AttractionQuery)(AttractionsMap);
+
+
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
