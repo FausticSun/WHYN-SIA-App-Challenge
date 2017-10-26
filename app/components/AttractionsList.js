@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { Header, Left, Body, Right, Title, Content, Container } from 'native-base';
+import { Header, Left, Body, Right, Title, Content } from 'native-base';
 import _ from 'lodash';
-import AttractionCard from '../components/AttractionCard';
-import AttractionsNavigator from '../navigation/AttractionsNavigator';
+import AttractionCard from './AttractionCard';
 
 
-export default class AttractionsScreen extends React.Component {
-  static navigationOptions = {
-    header: (
-      <Header>
-        <Left />
-        <Body><Title>Attractions</Title></Body>
-      </Header>
-    ),
-  };
+export default class AttractionList extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
     return (
-        <AttractionsNavigator/>
+      <ScrollView style={styles.container}>
+        <Content>
+          {_.map(propsAsState, attraction =>
+            <AttractionCard
+              key={attraction.name}
+              name={attraction.name}
+              imageURI={attraction.imageURI}/>
+          )}
+        </Content>
+      </ScrollView>
     );
   }
 }
