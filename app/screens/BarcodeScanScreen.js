@@ -76,10 +76,25 @@ export default class BarcodeScanScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
+    position: 'relative',
+  },
+  frame: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    right: 49,
+    
+  },
+  info: {
+    fontWeight: 'bold',
+    left: 7
+  },
+  image: {
+    height: 300,
+    width: 470,
   }
+
 });
