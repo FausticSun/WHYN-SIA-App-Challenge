@@ -20,7 +20,6 @@ class HomeScreen extends React.Component {
     this.state = {
       text: "lmao"
     };
-    console.log(props.redemptionQR);
   }
  
   static navigationOptions = {

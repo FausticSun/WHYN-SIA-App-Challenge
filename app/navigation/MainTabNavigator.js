@@ -18,9 +18,6 @@ export default TabNavigator(
     Attractions: {
       screen: AttractionsScreen,
     },
-    ScanBarcode: {
-      screen: BarcodeScanScreen,
-    },
     Map: {
       screen: MapScreen,
     }
@@ -46,13 +43,6 @@ export default TabNavigator(
           <Button
             vertical
             active={props.navigation.index === 2}
-            onPress={() => props.navigation.navigate("ScanBarcode")}>
-            <Icon name="barcode" />
-            <Text style={{ fontSize: 8 }}>Barcode</Text>
-          </Button>
-          <Button
-            vertical
-            active={props.navigation.index === 3}
             onPress={() => props.navigation.navigate("Map")}>
             <Icon name="map" />
             <Text style={{ fontSize: 8 }}>Map</Text>
