@@ -4,14 +4,15 @@ import { Header, Left, Body, Right, Title, Content } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Constants, BarCodeScanner, Permissions } from 'expo';
 
-export default class BarcodeScanScreen extends React.Component {
+class BarcodeScanScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
 
   state = {
-    hasCameraPermission: null, 
+    hasCameraPermission: null,
     canScan: true,
+    isError: false,
   }
 
   async componentWillMount() { // will be in main
@@ -31,20 +32,17 @@ export default class BarcodeScanScreen extends React.Component {
   handleBarCodeRead = ({type, data}) => {
     if (this.state.canScan) {
       this.setState({canScan: false});
-      type != 'org.iso.PDF417' ? 
-              alert('Error', 'Invalid boarding pass! Please try again.', [{text: 'Ok', onPress: () => this.setState({canScan: true}) }]) 
-              : alert(data); //temp 
+      this.setState({canScan: true});
     }
-    console.log(this.state.canScan);
   }
 
-  setCanScan () {
-    this.setState({canScan: true});
-  }
+  renderStandardMessage = () => (
+    <Text style={{ color: 'white', textAlign: 'center' }}>Please scan your redemption QR Code</Text>
+  );
 
-  passData(data) {
-    alert(data); // TEMP
-  }
+  renderErrorMessage = () => (
+    <Text style={{ color: 'white', textAlign: 'center' }}>Invalid QR!</Text>
+  );
 
   render() {
     return (
@@ -58,7 +56,9 @@ export default class BarcodeScanScreen extends React.Component {
           <Col style={{ width: 250 }}>
             <Row style={styles.translucent}></Row>
             <Row style={{ height: 250 }}></Row>
-            <Row style={styles.translucent}></Row>
+            <Row style={styles.translucent}>
+              { this.state.isError ? this.renderErrorMessage() : this.renderStandardMessage() }
+            </Row>
           </Col>
           <Col style={styles.translucent}></Col>
         </Grid>
@@ -79,3 +79,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000CC',
   }
 });
+
+export default BarcodeScanScreen;
