@@ -6,7 +6,7 @@ import { Footer, FooterTab, Button, Icon, Text } from 'native-base';
 import Colors from '../constants/Colors';
 
 import HomeScreen from '../screens/HomeScreen';
-import AttractionsNavigator from './AttractionsNavigator';
+import AttractionsScreen from '../screens/AttractionsScreen';
 import BarcodeScanScreen from '../screens/BarcodeScanScreen';
 import MapScreen from '../screens/MapScreen';
 
@@ -16,7 +16,7 @@ export default TabNavigator(
       screen: HomeScreen,
     },
     Attractions: {
-      screen: AttractionsNavigator,
+      screen: AttractionsScreen,
     },
     ScanBarcode: {
       screen: BarcodeScanScreen,
@@ -61,6 +61,7 @@ export default TabNavigator(
       </Footer>
     ),
     tabBarPosition: 'bottom',
+    lazy: true,
     animationEnabled: true,
     swipeEnabled: false,
   }
