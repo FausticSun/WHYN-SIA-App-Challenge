@@ -5,8 +5,12 @@ import MapView from 'react-native-maps';
 import BUS_ROUTE from '../constants/BusRoute';
 import STOP_HOLDER from '../constants/StopHolders';
 import CollapsibleCard from './CollapsibleCard';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import _ from 'lodash';
 
-export default class AttractionsMap extends React.Component {
+
+class AttractionsMap extends React.Component {
 
   constructor(props) {
     super(props);
@@ -22,7 +26,11 @@ export default class AttractionsMap extends React.Component {
   render() {
     const { params } = this.props.navigation.state;
 
-    let inner = <Spinner />
+    if (this.props.data.loading) {
+      return <Spinner/>;
+    }
+
+    let inner = <Spinner/>;
     if(params != null) {
       inner = (<CollapsibleCard
         title={params.name}
@@ -44,25 +52,36 @@ export default class AttractionsMap extends React.Component {
               latitudeDelta: 0.02,
               longitudeDelta: 0.0005,
             }}>
-          <MapView.Marker
-            coordinate={{ // current location
-              latitude: 1.2950416,
-              longitude: 103.7717378,
-            }}
-            title={'You are here'}
-            >
-            <View style={styles.radius}>
-              <View style={styles.marker}/>
-            </View>
-          </MapView.Marker>
 
-        </MapView>
-        {inner}
-      </View>
-     </Container>
+            <View style={styles.marker}>
+              {_.map(this.props.data.allAttractions, attraction =>
+                <MapView.Marker
+                  key={attraction.id}
+                  coordinate={{
+                    longitude: attraction.longitude,
+                    latitude: attraction.latitude,
+                  }}
+                  title={attraction.name}
+                  description={attraction.addressString}
+                  pinColor={"#2e00ff"}
+                />
+
+              )}
+            </View>
+          </MapView>
+          {inner}
+        </View>
+      </Container>
     );
   }
 };
+
+//to cut down
+const AttractionQuery = gql`query { allAttractions {
+  addressString, description, directions, id, inclusion, latitude, longitude, name, operatingHours, redemptionDetails, specialHours, url }}`;
+export default graphql(AttractionQuery)(AttractionsMap);
+
+
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
