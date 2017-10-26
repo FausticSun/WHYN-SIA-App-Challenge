@@ -19,9 +19,9 @@ export default class CollapsibleCard extends React.Component{
       let finalValue = this.state.expanded ?
        this.state.minHeight : this.state.maxHeight + this.state.minHeight;
 
-      this.setState({
-          expanded : !this.state.expanded
-      });
+      this.setState((prevState) => ({
+          expanded : !prevState.expanded
+      }));
 
       this.state.animation.setValue(initialValue);
       Animated.spring(this.state.animation, { toValue: finalValue }).start();
@@ -33,43 +33,46 @@ export default class CollapsibleCard extends React.Component{
 
     _setMinHeight(event){
       this.setState({
-        minHeight : event.nativeEvent.layout.height
+        minHeight : event.nativeEvent.layout.height,
+        animation : (new Animated.Value( event.nativeEvent.layout.height)),
       });
     }
 
     render(){
       const { title, description, imageURI } = this.props;
-      console.log(imageURI);
       return (
         <Animated.View
           style={[styles.container,{height: this.state.animation}]}>
           <Card>
           <View onLayout={this._setMinHeight.bind(this)}>
-            <CardItem style={styles.titleContainer} >
-                <Text style={styles.title}>{title}</Text>
-                <TouchableHighlight
-                    style={styles.button}
-                    onPress={this.toggle.bind(this)}
-                    underlayColor="#f1f1f1">
-                    <Icon
-                        style={styles.buttonImage}
-                        name='arrow-down'
-                    ></Icon>
-                </TouchableHighlight>
+          <TouchableHighlight
+              onPress={this.toggle.bind(this)}
+              underlayColor="#f1f1f1">
+            <CardItem style={{
+              height: 150,
+              width: '100%',
+              paddingTop: 0,
+              paddingRight: 0,
+              paddingLeft: 0,
+              paddingBottom: 0,
+            }}>
+                <Image
+                  style={{
+                    height: '100%',
+                    width: '100%'
+                  }}
+                  source={{uri: imageURI}}
+                >
+                  <Text style={{color: 'white'}}>{title}</Text>
+                </Image>
             </CardItem>
-            <Card>
-              <Image
-              source={{uri: imageURI}}
-              style={{
-               width: viewportWidth,
-               height: 100,
-              }}/>
-            </Card>
+            </TouchableHighlight>
+
+          </View>
+          <View style={styles.body} onLayout={this._setMaxHeight.bind(this)}>
             <CardItem>
               <Text>{description}</Text>
             </CardItem>
-          </View>
-          <View style={styles.body} onLayout={this._setMaxHeight.bind(this)}>
             <CardItem>
               <Text>Description of the year</Text>
             </CardItem>
@@ -91,16 +94,8 @@ var styles = StyleSheet.create({
     },
     titleContainer : {
         flexDirection: 'row',
-        flex: 1,
     },
     title       : {
-        flex    : 1,
     },
-    button      : {
 
-    },
-    buttonImage : {
-        width   : 30,
-        height  : 25
-    },
 });
