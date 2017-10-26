@@ -27,7 +27,7 @@ export default class AttractionCard extends React.Component {
                       height: '100%',
                       width: '100%',
                   }}
-                  source={{uri: imageURI}}
+                  source={imageURI}
                 >
                   <Text style={{color: 'white'}}>{name}</Text>
                  </Image>

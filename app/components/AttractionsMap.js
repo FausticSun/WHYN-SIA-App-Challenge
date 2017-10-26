@@ -30,6 +30,7 @@ export default class AttractionsMap extends React.Component {
         lat={0}
         long={0}
         description={params.description}
+        url={params.url}
       />);
     }
     return (
@@ -37,12 +38,12 @@ export default class AttractionsMap extends React.Component {
         <View style={styles.container}>
           <MapView
             style={styles.map}
-            initialRegion={{
-              latitude: 1.2950416,
-              longitude: 103.7717378,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.00421,
-          }}>
+            region={{
+              latitude: params.latitude,
+              longitude: params.longitude,
+              latitudeDelta: 0.02,
+              longitudeDelta: 0.0005,
+            }}>
           <MapView.Marker
             coordinate={{ // current location
               latitude: 1.2950416,

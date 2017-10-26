@@ -73,7 +73,7 @@ export default class CollapsibleCard extends React.Component{
 
 
     render() {
-      const { title, description, imageURI, navigation } = this.props;
+      const { title, description, imageURI, navigation, url } = this.props;
 
 
       return (
@@ -103,7 +103,7 @@ export default class CollapsibleCard extends React.Component{
                 height: '100%',
                 width: '100%'
               }}
-              source={{uri: imageURI}}
+              source={imageURI}
             >
 
               <Text style={{color: 'white'}}>{title}</Text>
@@ -118,7 +118,7 @@ export default class CollapsibleCard extends React.Component{
               <Text>{description}</Text>
             </CardItem>
             <CardItem>
-              <Text>Description of the year</Text>
+              <Text>{url}</Text>
             </CardItem>
               </View>
           </Card>
