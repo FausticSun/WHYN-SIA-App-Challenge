@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet} from 'react-native';
+import { Image, Text, View, StyleSheet} from 'react-native';
 import { Header, Left, Body, Right, Title } from 'native-base';
 import {Constants, BarCodeScanner, Permissions} from 'expo';
 
@@ -42,6 +42,13 @@ export default class BarcodeScanScreen extends React.Component {
     console.log(this.state.canScan);
   }
 
+  setCanScan () {
+    this.setState({canScan: true});
+  }
+  passData(data) {
+    alert(data); // TEMP
+  }
+
   render() {
     const {hasCameraPermission} = this.state;
 
@@ -54,7 +61,13 @@ export default class BarcodeScanScreen extends React.Component {
           <BarCodeScanner
             onBarCodeRead={this.handleBarCodeRead}
             style={{height:700, width: 500}}
-          />
+          > 
+            <View style={styles.frame}>
+              <Text style={styles.info}> Please scan your boarding pass to begin </Text>
+              <Image source={require('../../scanner_frame.jpg')} style={styles.image} />
+            </View>
+
+          </BarCodeScanner>
         }
       </View>
     )
