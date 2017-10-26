@@ -5,10 +5,10 @@ import AttractionsMap from '../components/AttractionsMap';
 
 
 export default AttractionsNavigator = TabNavigator({
-  List: {
+  AttractionsList: {
     screen: AttractionsList
   },
-  Map: {
+  AttractionsMap: {
     screen: AttractionsMap
   }
 },

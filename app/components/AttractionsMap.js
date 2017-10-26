@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { Header, Left, Body, Right, Title, Button, Container, Spinner } from 'native-base';
+import { Header, Left, Body, Right, Title, Button, Container, Spinner, Icon } from 'native-base';
 import MapView from 'react-native-maps';
 import BUS_ROUTE from '../constants/BusRoute';
 import STOP_HOLDER from '../constants/StopHolders';
@@ -12,6 +12,21 @@ import { uriMap } from './AttractionsList';
 
 
 class AttractionsMap extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    header: (
+      <Header>
+      <Left><Title>Attractions</Title></Left>
+      <Body></Body>
+      <Right>
+        <Button
+          transparent
+          onPress={() => navigation.navigate('AttractionsList')}>
+          <Icon name='arrow-back' />
+        </Button>
+      </Right>
+      </Header>
+    ),
+  });
 
   constructor(props) {
     super(props);
@@ -31,17 +46,15 @@ class AttractionsMap extends React.Component {
       return <Spinner/>;
     }
 
-    let inner = <Spinner/>;
-    if(params != null) {
-      inner = (<CollapsibleCard
-        title={params.name}
-        imageURI={params.imageURI}
-        lat={0}
-        long={0}
-        description={params.description}
-        url={params.url}
-      />);
-    }
+    const inner = params.showAll ?
+    null :
+    (<CollapsibleCard
+      title={params.name}
+      imageURI={params.imageURI}
+      description={params.description}
+      url={params.url}
+    />);
+
     return (
       <Container>
         <View style={styles.container}>
@@ -50,8 +63,8 @@ class AttractionsMap extends React.Component {
             region={{
               latitude: params.latitude,
               longitude: params.longitude,
-              latitudeDelta: 0.02,
-              longitudeDelta: 0.0005,
+              latitudeDelta: params.latitudeDelta,
+              longitudeDelta: params.longitudeDelta,
             }}>
 
             <View style={styles.marker}>
@@ -73,7 +86,7 @@ class AttractionsMap extends React.Component {
                       this.props.navigation.state.params.imageURI = uriMap[attraction.id];
                       this.props.navigation.state.params.url = attraction.url;
                       this.props.navigation.state.params.name = attraction.name;
-
+                      this.props.navigation.state.params.showAll = false;
                       this.forceUpdate();
                     }
                   }

@@ -1,12 +1,34 @@
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { Header, Left, Body, Right, Title, Content, Spinner } from 'native-base';
+import { Header, Left, Body, Right, Title, Content, Spinner, Button, Icon } from 'native-base';
 import _ from 'lodash';
 import AttractionCard from './AttractionCard';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 class AttractionList extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    header: (
+      <Header>
+        <Left><Title>Attractions</Title></Left>
+        <Body></Body>
+        <Right>
+          <Button
+            transparent
+            onPress={() => navigation.navigate('AttractionsMap',{
+              showAll: true,
+              latitude: 1.3139961,
+              longitude: 103.7038199,
+              latitudeDelta: 1,
+              longitudeDelta: 1,
+            })}
+          >
+            <Icon name='map' />
+          </Button>
+        </Right>
+      </Header>
+    ),
+  });
 
   render() {
     const { navigate } = this.props.navigation;
@@ -23,13 +45,16 @@ class AttractionList extends React.Component {
               name={attraction.name}
               imageURI={uriMap[attraction.id]}
               handleOnPress={
-                () => navigate('Map', {
+                () => navigate('AttractionsMap', {
                   name: attraction.name,
                   imageURI: uriMap[attraction.id],
                   description: attraction.description,
                   url: attraction.url,
                   latitude: attraction.latitude,
                   longitude: attraction.longitude,
+                  latitudeDelta: 0.02,
+                  longitudeDelta: 0.0005,
+                  showAll: false,
                 })
               }
             />);

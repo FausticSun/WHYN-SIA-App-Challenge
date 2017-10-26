@@ -16,7 +16,7 @@ export default TabNavigator(
       screen: HomeScreen,
     },
     Attractions: {
-      screen: AttractionsScreen,
+      screen: AttractionsNavigator,
     },
     Map: {
       screen: MapScreen,
