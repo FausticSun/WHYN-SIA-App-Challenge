@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Image, TouchableHighlight, Animated, Dimensions } from 'react-native';
-import { Card, Icon, CardItem, Text } from 'native-base';
+import { Card, Icon, CardItem, Text, Spinner } from 'native-base';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
 
@@ -28,23 +28,46 @@ export default class CollapsibleCard extends React.Component{
     }
 
     _setMaxHeight(event){
-      this.setState({ maxHeight : event.nativeEvent.layout.height  });
+
+      this.setState({ maxHeight : event.nativeEvent.layout.height,
+        animation : (new Animated.Value( this.state.minHeight)),  });
     }
 
     _setMinHeight(event){
       this.setState({
         minHeight : event.nativeEvent.layout.height,
-        animation : (new Animated.Value( event.nativeEvent.layout.height)),
+
       });
+    }
+
+
+    _setToggleClosed() {
+    this.top.measure((ox, oy, width, height, px, py) => {
+        this.setState({
+            maxHeight: height
+        });
+    });
+    this.bot.measure((ox, oy, width, height, px, py) => {
+        this.setState({
+            minHeight: height
+        });
+        this.state.animation.setValue(height);
+    });
+  }
+    componentDidMount() {
+        setTimeout( this._setToggleClosed.bind(this) );
     }
 
     render(){
       const { title, description, imageURI } = this.props;
+
       return (
         <Animated.View
-          style={[styles.container,{height: this.state.animation}]}>
+          style={[styles.container,{ height: this.state.animation}]}>
           <Card>
-          <View onLayout={this._setMinHeight.bind(this)}>
+          <View
+            ref={c => this.top = c}
+            onLayout={this._setMinHeight.bind(this)}>
           <TouchableHighlight
               onPress={this.toggle.bind(this)}
               underlayColor="#f1f1f1">
@@ -69,7 +92,9 @@ export default class CollapsibleCard extends React.Component{
             </TouchableHighlight>
 
           </View>
-          <View style={styles.body} onLayout={this._setMaxHeight.bind(this)}>
+          <View
+            ref={c => this.bot = c}
+            onLayout={this._setMaxHeight.bind(this)}>
             <CardItem>
               <Text>{description}</Text>
             </CardItem>
@@ -92,10 +117,4 @@ var styles = StyleSheet.create({
         width: '100%',
         backgroundColor: 'transparent',
     },
-    titleContainer : {
-        flexDirection: 'row',
-    },
-    title       : {
-    },
-
 });

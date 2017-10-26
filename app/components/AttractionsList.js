@@ -16,7 +16,18 @@ export default class AttractionList extends React.Component {
             <AttractionCard
               key={attraction.name}
               name={attraction.name}
-              imageURI={attraction.imageURI}/>
+              imageURI={attraction.imageURI}
+              handleOnPress={
+                () => navigate('Map', {
+                  name: attraction.name,
+                  imageURI: attraction.imageURI,
+                  description: attraction.description,
+                  openingHours: "HERE TOO",
+                  latitude: 0,
+                  longitude: 0,
+                })
+              }
+            />
           )}
         </Content>
       </ScrollView>
@@ -27,25 +38,30 @@ export default class AttractionList extends React.Component {
 const propsAsState = {
   0: {
     name: "Singapore Zoo",
-    imageURI: "https://www.singaporeair.com/saar5/images/plan-travel/packages/singapore-zoo.jpg"
+    imageURI: "https://www.singaporeair.com/saar5/images/plan-travel/packages/singapore-zoo.jpg",
+    description: "zoo",
 
   },
 
   1: {
     name: "Night Safari",
-    imageURI: "https://www.singaporeair.com/saar5/images/plan-travel/packages/night-safari.jpg"
+    imageURI: "https://www.singaporeair.com/saar5/images/plan-travel/packages/night-safari.jpg",
+    description: "safar like jafar"
   },
 
   2: {
     name: "Gardens by the Bay",
-    imageURI: "https://www.singaporeair.com/saar5/images/plan-travel/packages/gardens-bythe-bay.jpg"
+    imageURI: "https://www.singaporeair.com/saar5/images/plan-travel/packages/gardens-bythe-bay.jpg",
+    description: "bae",
   },
 
   3: {
     name: "Chinatown Heritage Centre",
-    imageURI: "https://www.singaporeair.com/saar5/images/plan-travel/packages/Chinatown-heritage-centre.jpg"
+    imageURI: "https://www.singaporeair.com/saar5/images/plan-travel/packages/Chinatown-heritage-centre.jpg",
+    description: "ni hao",
   },
-}
+};
+
 
 const styles = StyleSheet.create({
     container: {

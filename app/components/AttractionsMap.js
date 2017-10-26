@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { Header, Left, Body, Right, Title, Button, Container } from 'native-base';
+import { Header, Left, Body, Right, Title, Button, Container, Spinner } from 'native-base';
 import MapView from 'react-native-maps';
 import BUS_ROUTE from '../constants/BusRoute';
 import STOP_HOLDER from '../constants/StopHolders';
@@ -20,6 +20,18 @@ export default class AttractionsMap extends React.Component {
   }
 
   render() {
+    const { params } = this.props.navigation.state;
+
+    let inner = <Spinner />
+    if(params != null) {
+      inner = (<CollapsibleCard
+        title={params.name}
+        imageURI={params.imageURI}
+        lat={0}
+        long={0}
+        description={params.description}
+      />);
+    }
     return (
       <Container>
         <View style={styles.container}>
@@ -44,14 +56,8 @@ export default class AttractionsMap extends React.Component {
           </MapView.Marker>
 
         </MapView>
+        {inner}
       </View>
-      <CollapsibleCard
-        title={"Attraction"}
-        imageURI={"https://www.singaporeair.com/saar5/images/plan-travel/packages/gardens-bythe-bay.jpg"}
-        lat={0}
-        long={0}
-        description={"Lorem Ipsum et something"}
-      />
      </Container>
     );
   }
