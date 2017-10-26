@@ -8,6 +8,7 @@ import CollapsibleCard from './CollapsibleCard';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import _ from 'lodash';
+import { uriMap } from './AttractionsList';
 
 
 class AttractionsMap extends React.Component {
@@ -64,6 +65,18 @@ class AttractionsMap extends React.Component {
                   title={attraction.name}
                   description={attraction.addressString}
                   pinColor={"#2e00ff"}
+                  onPress={
+                    ()=>{
+                      this.props.navigation.state.params.latitude = attraction.latitude;
+                      this.props.navigation.state.params.longitude = attraction.longitude;
+                      this.props.navigation.state.params.description = attraction.description;
+                      this.props.navigation.state.params.imageURI = uriMap[attraction.id];
+                      this.props.navigation.state.params.url = attraction.url;
+                      this.props.navigation.state.params.name = attraction.name;
+
+                      this.forceUpdate();
+                    }
+                  }
                 />
 
               )}

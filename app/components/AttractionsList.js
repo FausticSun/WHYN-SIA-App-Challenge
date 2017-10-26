@@ -41,7 +41,7 @@ class AttractionList extends React.Component {
   }
 }
 
-const uriMap = {
+export const uriMap = {
   cj952msrk056m01486zqqgga4: require('../../assets/images/cj952msrk056m01486zqqgga4.jpg'),
   cj953tnhv05eo0148219zjff8: require('../../assets/images/cj953tnhv05eo0148219zjff8.jpg'),
   cj953x61q05gc0148xd8f3nx1: require('../../assets/images/cj953x61q05gc0148xd8f3nx1.jpg'),
