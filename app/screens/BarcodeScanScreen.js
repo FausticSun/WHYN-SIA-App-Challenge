@@ -43,7 +43,7 @@ class BarcodeScanScreen extends React.Component {
             actions: [NavigationActions.navigate({ routeName: 'Main' })],
           })
         );
-        this.setState({message: 'success'});
+        return;
       }
       this.setState({canScan: true});
     }
