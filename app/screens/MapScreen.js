@@ -14,8 +14,8 @@ class MapScreen extends React.Component {
   static navigationOptions = {
     header: (
       <Header>
-        <Left />
-        <Body><Title>Map</Title></Body>
+        <Left><Title>Map</Title></Left>
+        <Body></Body>
       </Header>
     ),
   };

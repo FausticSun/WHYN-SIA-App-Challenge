@@ -25,8 +25,8 @@ class HomeScreen extends React.Component {
   static navigationOptions = {
     header: (
       <Header>
-        <Left />
-        <Body><Title>Singapore Stopover Holiday</Title></Body>
+        <Left><Title>Home</Title></Left>
+        <Body></Body>
       </Header>
     ),
   };

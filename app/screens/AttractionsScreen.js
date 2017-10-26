@@ -10,8 +10,8 @@ export default class AttractionsScreen extends React.Component {
   static navigationOptions = {
     header: (
       <Header>
-        <Left />
-        <Body><Title>Attractions</Title></Body>
+        <Left><Title>Attractions</Title></Left>
+        <Body></Body>
       </Header>
     ),
   };
