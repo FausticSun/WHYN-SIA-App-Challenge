@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Permissions } from 'expo';
+import { Image, Alert } from 'react-native';
 import { Content, Button, Text } from 'native-base';
 import { NavigationActions } from 'react-navigation';
 import Colors from '../constants/Colors';
@@ -8,6 +9,19 @@ class WelcomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
+  getCameraPermissionsAsync = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status === 'granted') {
+      this.props.navigation.dispatch(
+        NavigationActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: 'BarcodeScan' })],
+        }))
+    } else {
+      Alert.alert('Error', 'Camera permissions required');
+    }
+  }
 
   render() {
     return (
@@ -31,11 +45,7 @@ class WelcomeScreen extends React.Component {
           source={require('../../assets/images/sia-logo.jpg')} />
         <Button
           style={{ alignSelf: 'center' }}
-          onPress={() => this.props.navigation.dispatch(
-            NavigationActions.reset({
-              index: 0,
-              actions: [NavigationActions.navigate({ routeName: 'Main' })],
-            }))}
+          onPress={this.getCameraPermissionsAsync}
         >
           <Text>Scan QR Code</Text>
         </Button>

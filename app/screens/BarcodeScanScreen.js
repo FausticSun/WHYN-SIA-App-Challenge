@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, Text, View, StyleSheet} from 'react-native';
 import { Header, Left, Body, Right, Title } from 'native-base';
-import {Constants, BarCodeScanner, Permissions} from 'expo';
+import { Constants, BarCodeScanner, Permissions } from 'expo';
 
 export default class BarcodeScanScreen extends React.Component {
   static navigationOptions = {
