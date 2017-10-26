@@ -10,9 +10,8 @@ import {
 } from 'react-native';
 import { Card, CardItem, Content, Header, Left, Body, Right, Spinner, Title } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
+import { graphql, gql, compose } from 'react-apollo';
+import { connect } from 'react-redux';
 import QRCode from 'react-native-qrcode';
 const redemptionQR = "093cin209n2093icn092eni ";
 class HomeScreen extends React.Component {
@@ -21,6 +20,7 @@ class HomeScreen extends React.Component {
     this.state = {
       text: "lmao"
     };
+    console.log(props.redemptionQR);
   }
  
   static navigationOptions = {
@@ -89,9 +89,35 @@ class HomeScreen extends React.Component {
   }
 }
 
-const CustomerQuery = gql`query MyQuery { Customer(redemptionQR: \"${redemptionQR}\" ){name, numTix, ticketQR}}`;
-export default graphql(CustomerQuery)(HomeScreen);
+const CustomerQuery = gql`
+  query ($redemptionQR: String!){
+    Customer(redemptionQR: $redemptionQR) {
+      name,
+      numTix,
+      ticketQR
+    }
+  }`;
+const reduxConnector = connect(
+  (state) => ({
+    redemptionQR: state.redemptionQR.redemptionQR
+  })
+);
 
+const graphqlConnector = graphql(
+  CustomerQuery,
+  {
+    options: (props) => ({
+      variables: {
+        redemptionQR: props.redemptionQR
+      }
+    })
+  }
+);
+
+export default compose(
+  reduxConnector,
+  graphqlConnector
+)(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {
