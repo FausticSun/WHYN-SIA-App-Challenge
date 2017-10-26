@@ -4,6 +4,9 @@ import { Header, Left, Body, Right, Title, Content } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Constants, BarCodeScanner, Permissions } from 'expo';
 import { withApollo, gql } from 'react-apollo';
+import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
+import { saveRedemptionQR } from '../actions/RedemptionQRActions';
 
 class BarcodeScanScreen extends React.Component {
   static navigationOptions = {
@@ -47,6 +50,13 @@ class BarcodeScanScreen extends React.Component {
       if (queryData.data.Customer === null) {
         this.setState({message: 'error'});
       } else {
+        this.props.saveRedemptionQR(data);
+        this.props.navigation.dispatch(
+          NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'Main' })],
+          })
+        );
         this.setState({message: 'success'});
       }
       this.setState({canScan: true});
@@ -103,4 +113,9 @@ const styles = StyleSheet.create({
   }
 });
 
-export default withApollo(BarcodeScanScreen);
+export default connect(
+  null,
+  (dispatch) => ({
+    saveRedemptionQR: qr => { dispatch(saveRedemptionQR(qr)) }
+  })
+)(withApollo(BarcodeScanScreen));

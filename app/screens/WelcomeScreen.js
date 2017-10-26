@@ -2,7 +2,6 @@ import React from 'react';
 import { Permissions } from 'expo';
 import { Image, Alert } from 'react-native';
 import { Content, Button, Text } from 'native-base';
-import { NavigationActions } from 'react-navigation';
 import Colors from '../constants/Colors';
 
 class WelcomeScreen extends React.Component {
@@ -13,11 +12,7 @@ class WelcomeScreen extends React.Component {
   getCameraPermissionsAsync = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     if (status === 'granted') {
-      this.props.navigation.dispatch(
-        NavigationActions.reset({
-          index: 0,
-          actions: [NavigationActions.navigate({ routeName: 'BarcodeScan' })],
-        }))
+      this.props.navigation.navigate('BarcodeScan');
     } else {
       Alert.alert('Error', 'Camera permissions required');
     }

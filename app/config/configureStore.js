@@ -4,6 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/es/storage';
 import SIAReducers from '../reducers/SIAReducers';
 import GeneralReducers from "../reducers/GeneralReducers";
+import RedemptionQRReducers from "../reducers/RedemptionQRReducers";
 import { client } from "./configureApollo.js";
 
 const config = {
@@ -14,6 +15,7 @@ const config = {
 const reducer = persistReducer(config, combineReducers({
   SIA: SIAReducers,
   general: GeneralReducers,
+  redemptionQR: RedemptionQRReducers,
   apollo: client.reducer(),
 }));
 
