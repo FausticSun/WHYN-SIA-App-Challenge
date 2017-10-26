@@ -1,16 +1,12 @@
 import React from 'react';
 import { Image, Text, View, StyleSheet} from 'react-native';
-import { Header, Left, Body, Right, Title } from 'native-base';
+import { Header, Left, Body, Right, Title, Content } from 'native-base';
+import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Constants, BarCodeScanner, Permissions } from 'expo';
 
 export default class BarcodeScanScreen extends React.Component {
   static navigationOptions = {
-    header: (
-      <Header>
-        <Left />
-        <Body><Title>Scan Barcode</Title></Body>
-      </Header>
-    ),
+    header: null,
   };
 
   state = {
@@ -45,32 +41,29 @@ export default class BarcodeScanScreen extends React.Component {
   setCanScan () {
     this.setState({canScan: true});
   }
+
   passData(data) {
     alert(data); // TEMP
   }
 
   render() {
-    const {hasCameraPermission} = this.state;
-
     return (
-      <View stype={styles.container}>
-        {this.state.hasCameraPermission != true ?
-          <Text>
-            Please enable camera permissions to scan your boarding pass.
-          </Text> :
-          <BarCodeScanner
-            onBarCodeRead={this.handleBarCodeRead}
-            style={{height:700, width: 500}}
-          > 
-            <View style={styles.frame}>
-              <Text style={styles.info}> Please scan your boarding pass to begin </Text>
-              <Image source={require('../../scanner_frame.jpg')} style={styles.image} />
-            </View>
-
-          </BarCodeScanner>
-        }
-      </View>
-    )
+      <Content contentContainerStyle={{ flex: 1 }}>
+        <BarCodeScanner
+          onBarCodeRead={this.handleBarCodeRead}
+          style={{ ...StyleSheet.absoluteFillObject, flex: 1 }}
+        />
+        <Grid contentContainerStyle={{ flex: 1 }}>
+          <Col style={styles.translucent}></Col>
+          <Col style={{ width: 250 }}>
+            <Row style={styles.translucent}></Row>
+            <Row style={{ height: 250 }}></Row>
+            <Row style={styles.translucent}></Row>
+          </Col>
+          <Col style={styles.translucent}></Col>
+        </Grid>
+      </Content>
+    );
   }
 }
 
@@ -81,5 +74,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
+  },
+  translucent: {
+    backgroundColor: '#000000CC',
   }
 });
