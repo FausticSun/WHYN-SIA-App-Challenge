@@ -4,6 +4,7 @@ import { Header, Left, Body, Right, Title, Button, Container } from 'native-base
 import MapView from 'react-native-maps';
 import BUS_ROUTE from '../constants/BusRoute';
 import STOP_HOLDER from '../constants/StopHolders';
+import CollapsibleCard from './CollapsibleCard';
 
 export default class AttractionsMap extends React.Component {
 
@@ -15,57 +16,43 @@ export default class AttractionsMap extends React.Component {
         latitude: 1.2950416,
         longitude: 103.7717378,
       },
-      busRoute: BUS_ROUTE,
-      busStops: STOP_HOLDER,
     };
-  }
-
-  focusStop(lat, long) {
-    this.setState({region: {latitude: lat, longitude: long, latitudeDelta: 0.02,
-    longitudeDelta: 0.0005,}, callout: {latitude: lat, longitude: long}});
-
   }
 
   render() {
     return (
-    <Container>
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={ {
-          latitude: 1.2950416,
-          longitude: 103.7717378,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.00421,
-        }}
-        region={this.state.region}
-        onRegionChange={(region)=>{this.setState({region})}}
-        showsMyLocationButton={true}
-      >
-        <MapView.Marker
-          coordinate={{ // current location
-            latitude: 1.2950416,
-            longitude: 103.7717378,
-          }}
-          title={'You are here'}
-        >
-          <View style={styles.radius}>
-            <View style={styles.marker}/>
-          </View>
-        </MapView.Marker>
-        <MapView.Marker // Changi Airport
-          coordinate={{ // current location
-            latitude: 1.3554069,
-            longitude: 103.9837081,
-          }}
-        />
-          <MapView.Callout
-            tooltip={true}
-            description={"hi"}
-          />
-      </MapView>
+      <Container>
+        <View style={styles.container}>
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: 1.2950416,
+              longitude: 103.7717378,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.00421,
+          }}>
+          <MapView.Marker
+            coordinate={{ // current location
+              latitude: 1.2950416,
+              longitude: 103.7717378,
+            }}
+            title={'You are here'}
+            >
+            <View style={styles.radius}>
+              <View style={styles.marker}/>
+            </View>
+          </MapView.Marker>
+
+        </MapView>
       </View>
-    </Container>
+      <CollapsibleCard
+        title={"Attraction"}
+        imageURI={"https://www.singaporeair.com/saar5/images/plan-travel/packages/gardens-bythe-bay.jpg"}
+        lat={0}
+        long={0}
+        description={"Lorem Ipsum et something"}
+      />
+     </Container>
     );
   }
 };
