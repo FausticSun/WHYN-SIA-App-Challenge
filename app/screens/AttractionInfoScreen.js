@@ -8,8 +8,8 @@ export default class AttractionInfoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     header: (
       <Header>
-        <Left />
-        <Body><Title>{navigation.state.params.name}</Title></Body>
+        <Left><Title>{navigation.state.params.name}</Title></Left>
+        <Body></Body>
         <Right>
           <Icon
             style={{ paddingLeft: 10, fontSize: 40}}

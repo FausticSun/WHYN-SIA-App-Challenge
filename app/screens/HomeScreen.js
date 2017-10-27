@@ -10,9 +10,8 @@ import {
 } from 'react-native';
 import { Card, CardItem, Content, Header, Left, Body, Right, Spinner, Title } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
+import { graphql, gql, compose } from 'react-apollo';
+import { connect } from 'react-redux';
 import QRCode from 'react-native-qrcode';
 const redemptionQR = "093cin209n2093icn092eni ";
 class HomeScreen extends React.Component {
@@ -26,8 +25,8 @@ class HomeScreen extends React.Component {
   static navigationOptions = {
     header: (
       <Header>
-        <Left />
-        <Body><Title>Singapore Stopover Holiday</Title></Body>
+        <Left><Title>Home</Title></Left>
+        <Body></Body>
       </Header>
     ),
   };
@@ -36,15 +35,12 @@ class HomeScreen extends React.Component {
       return (<Spinner />);
     } else {
       return (
-       
-            
-            <QRCode
-              value={this.props.data.Customer.ticketQR}
-              size={200}
-              bgColor='black'
-              fgColor='white'
-            />
-          
+        <QRCode
+          value={this.props.data.Customer.ticketQR}
+          size={200}
+          bgColor='black'
+          fgColor='white'
+        />
       );
     }
   }
@@ -52,13 +48,14 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <Content>
-        <Card>
-          <CardItem>
-            <Grid>
-              <Col style={{ width: 61, height: 200 }}></Col>
-              <Col style={{ height: 200 }}>{ this.renderQR() }</Col>
-              <Col style={{ width: 61, height: 200 }}></Col>
-            </Grid>
+        <Card style={{flex:1, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent'}}>
+
+          <CardItem style={{backgroundColor: 'transparent'}}>
+            <Text> Show this QRCode to gain access to Attractions!</Text>
+          </CardItem>
+
+          <CardItem style={{marginBottom: 15}}>
+            {this.renderQR()}
           </CardItem>
         </Card>
       </Content>
@@ -89,9 +86,35 @@ class HomeScreen extends React.Component {
   }
 }
 
-const CustomerQuery = gql`query MyQuery { Customer(redemptionQR: \"${redemptionQR}\" ){name, numTix, ticketQR}}`;
-export default graphql(CustomerQuery)(HomeScreen);
+const CustomerQuery = gql`
+  query ($redemptionQR: String!){
+    Customer(redemptionQR: $redemptionQR) {
+      name,
+      numTix,
+      ticketQR
+    }
+  }`;
+const reduxConnector = connect(
+  (state) => ({
+    redemptionQR: state.redemptionQR.redemptionQR
+  })
+);
 
+const graphqlConnector = graphql(
+  CustomerQuery,
+  {
+    options: (props) => ({
+      variables: {
+        redemptionQR: props.redemptionQR
+      }
+    })
+  }
+);
+
+export default compose(
+  reduxConnector,
+  graphqlConnector
+)(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {

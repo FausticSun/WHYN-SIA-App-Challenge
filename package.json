@@ -2,8 +2,8 @@
   "name": "whyn-sia-app-challenge",
   "version": "0.0.0",
   "description": "Hello Expo!",
-  "author": null,
-  "license": "",
+  "author": "whyn",
+  "license": "MIT",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "test": "node ./node_modules/jest/bin/jest.js --watch"

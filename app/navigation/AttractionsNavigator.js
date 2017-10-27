@@ -13,6 +13,9 @@ export default AttractionsNavigator = TabNavigator({
   }
 },
   {
+    swipeEnabled: false,
+    backBehaviour: 'none',
+    lazy: true,
     tabBarOptions: {
       style: {
         display: 'none'

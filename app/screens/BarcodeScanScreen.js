@@ -1,63 +1,88 @@
 import React from 'react';
-import { Text, View, StyleSheet} from 'react-native';
-import { Header, Left, Body, Right, Title } from 'native-base';
-import {Constants, BarCodeScanner, Permissions} from 'expo';
+import { Image, Text, View, StyleSheet} from 'react-native';
+import { Header, Left, Body, Right, Title, Content } from 'native-base';
+import { Col, Row, Grid } from 'react-native-easy-grid';
+import { Constants, BarCodeScanner, Permissions } from 'expo';
+import { withApollo, gql } from 'react-apollo';
+import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
+import { saveRedemptionQR } from '../actions/RedemptionQRActions';
 
-export default class BarcodeScanScreen extends React.Component {
+class BarcodeScanScreen extends React.Component {
   static navigationOptions = {
-    header: (
-      <Header>
-        <Left />
-        <Body><Title>Scan Barcode</Title></Body>
-      </Header>
-    ),
+    header: null,
   };
 
   state = {
-    hasCameraPermission: null, 
+    hasCameraPermission: null,
     canScan: true,
+    message: 'standard',
+    customer: null,
   }
 
-  async componentWillMount() { // will be in main
-    this.requestCameraPermission();
-  }
-
-  componentDidMount() {
-   if(!this.state.hasCameraPermission)
-    this.requestCameraPermission();
-  }
-
-  requestCameraPermission = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({hasCameraPermission: status === 'granted'});
-  }
-
-  handleBarCodeRead = ({type, data}) => {
+  handleBarCodeRead = async ({type, data}) => {
     if (this.state.canScan) {
       this.setState({canScan: false});
-      type != 'org.iso.PDF417' ? 
-              alert('Error', 'Invalid boarding pass! Please try again.', [{text: 'Ok', onPress: () => this.setState({canScan: true}) }]) 
-              : alert(data); //temp 
+      this.setState({message: 'loading'});
+      const queryData = await this.props.client.query({
+        query: gql`
+          query {
+            Customer(redemptionQR: \"${data}\") {
+              ticketQR
+            }
+          }
+        `,
+      });
+      if (queryData.data.Customer === null) {
+        this.setState({message: 'error'});
+      } else {
+        this.props.saveRedemptionQR(data);
+        this.props.navigation.dispatch(
+          NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'Main' })],
+          })
+        );
+        return;
+      }
+      this.setState({canScan: true});
     }
-    console.log(this.state.canScan);
+  }
+
+  renderMessage = () => {
+    switch(this.state.message) {
+      case 'loading':
+        return (<Text style={{ color: 'yellow', textAlign: 'center' }}>Checking QR</Text>);
+      case 'error':
+        return (<Text style={{ color: 'red', textAlign: 'center' }}>Invalid QR!</Text>);
+      case 'success':
+        return (<Text style={{ color: 'green', textAlign: 'center' }}>Successfully Validated!</Text>);
+      case 'standard':
+      default:
+        return (<Text style={{ color: 'white', textAlign: 'center' }}>Please scan your redemption QR Code</Text>);
+    }
   }
 
   render() {
-    const {hasCameraPermission} = this.state;
-
     return (
-      <View stype={styles.container}>
-        {this.state.hasCameraPermission != true ?
-          <Text>
-            Please enable camera permissions to scan your boarding pass.
-          </Text> :
-          <BarCodeScanner
-            onBarCodeRead={this.handleBarCodeRead}
-            style={{height:700, width: 500}}
-          />
-        }
-      </View>
-    )
+      <Content contentContainerStyle={{ flex: 1 }}>
+        <BarCodeScanner
+          onBarCodeRead={this.handleBarCodeRead}
+          style={{ ...StyleSheet.absoluteFillObject, flex: 1 }}
+        />
+        <Grid contentContainerStyle={{ flex: 1 }}>
+          <Col style={styles.translucent}></Col>
+          <Col style={{ width: 350 }}>
+            <Row style={styles.translucent}></Row>
+            <Row style={{ height: 350 }}></Row>
+            <Row style={styles.translucent}>
+              { this.renderMessage() }
+            </Row>
+          </Col>
+          <Col style={styles.translucent}></Col>
+        </Grid>
+      </Content>
+    );
   }
 }
 
@@ -68,5 +93,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
+  },
+  translucent: {
+    backgroundColor: '#000000CC',
   }
 });
+
+export default connect(
+  null,
+  (dispatch) => ({
+    saveRedemptionQR: qr => { dispatch(saveRedemptionQR(qr)) }
+  })
+)(withApollo(BarcodeScanScreen));

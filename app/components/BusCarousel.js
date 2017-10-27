@@ -39,6 +39,8 @@ export default class BusCarousel extends React.Component {
      if (this.props.stops != undefined) {
        stops = this.props.stops;
      }
+
+     console.log(stops);
      return (
          <Carousel
           style={{
@@ -50,13 +52,13 @@ export default class BusCarousel extends React.Component {
              marginHorizontal: 0,
            }}
            ref={(c) => { this._carousel = c; }}
-           data={stops}
+           data={stops.placeMarks}
            renderItem={this._renderItem}
            sliderWidth={viewportWidth}
            itemWidth={300}
            onSnapToItem={
              (index) => {
-               this.props.onSnap(stops[index].Coord.latitude, stops[index].Coord.longitude);
+               this.props.onSnap(stops.placeMarks[index].Coord.latitude, stops.placeMarks[index].Coord.longitude);
              }
            }
          />

@@ -10,7 +10,9 @@ export default class AttractionCard extends React.Component {
   render() {
     const { name, imageURI, handleOnPress } = this.props;
     return (
-      <TouchableOpacity onPress={handleOnPress}>
+      <TouchableOpacity
+        onPress={handleOnPress}
+        underlayColor="#f1f1f1">
             <Card style={{padding: 0, backgroundColor: "red"}}>
               <CardItem
                 style={{
@@ -25,7 +27,7 @@ export default class AttractionCard extends React.Component {
                       height: '100%',
                       width: '100%',
                   }}
-                  source={{uri: imageURI}}
+                  source={imageURI}
                 >
                   <Text style={{color: 'white'}}>{name}</Text>
                  </Image>
