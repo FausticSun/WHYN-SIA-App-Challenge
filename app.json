@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "whyn-sia-app-challenge",
+    "name": "Singapore Stopover Holiday",
     "description": "No description",
     "slug": "whyn-sia-app-challenge",
     "privacy": "public",
@@ -8,7 +8,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/sia-logold.jpg",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -18,7 +18,11 @@
       "assetExts": ["ttf"]
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.whyn.ssh"
+    },
+    "android": {
+      "package": "com.whyn.ssh"
     },
     "androidStatusBar": {
       "barStyle": "light-content",
