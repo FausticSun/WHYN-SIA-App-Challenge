@@ -13,6 +13,7 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import DiscountsCarousel from '../components/DiscountsCarousel';
 import { connect } from 'react-redux';
 import { graphql, gql, compose } from 'react-apollo';
+import { NavigationActions } from 'react-navigation';
 import QRCode from 'react-native-qrcode';
 const redemptionQR = "093cin209n2093icn092eni ";
 class HomeScreen extends React.Component {
