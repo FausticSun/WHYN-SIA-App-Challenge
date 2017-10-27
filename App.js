@@ -40,6 +40,8 @@ class App extends React.Component {
         require('./assets/images/robot-dev.png'),
         require('./assets/images/robot-prod.png'),
         require('./assets/images/sia-logo.jpg'),
+
+
         require('./assets/images/cj952msrk056m01486zqqgga4.jpg'),
         require('./assets/images/cj953tnhv05eo0148219zjff8.jpg'),
         require('./assets/images/cj953x61q05gc0148xd8f3nx1.jpg'),
@@ -48,6 +50,26 @@ class App extends React.Component {
         require('./assets/images/cj954qhqt05m30148fyo7yruq.jpg'),
         require('./assets/images/cj954zw6v05od0148oixkwd5l.jpg'),
         require('./assets/images/cj9558rkt05pf01484nzz5q4q.jpg'),
+
+        require('./assets/images/cj92f7kou2v3c01129c3e7jwb.jpg'),
+        require('./assets/images/cj92fakz52vsl0112nvpi8v4n.jpg'),
+        require('./assets/images/cj970a1h40hqv0148yqvx6fzn.jpg'),
+        require('./assets/images/cj970bi2c0hr30148ifve1aqc.jpg'),
+        require('./assets/images/cj970cz1s0hrb01487x1j4xot.jpg'),
+
+        require('./assets/images/cj970dzvr0hrg0148bn1j06ng.jpg'),
+        require('./assets/images/cj970f3dc0hrk0148sk6f4rf1.jpg'),
+        require('./assets/images/cj970fmz00hro0148j7wihjvp.jpg'),
+        require('./assets/images/cj970h0hc0hrs0148cbkkpdif.jpg'),
+        require('./assets/images/cj970ijqg0hrz01486dbwqmfh.jpg'),
+
+        require('./assets/images/cj970jgsk0hs30148nzxo1o61.jpg'),
+        require('./assets/images/cj970k6hs0hs701487q1a2gsk.jpg'),
+        require('./assets/images/cj970kzea0hse0148ggvfhxtj.jpg'),
+        require('./assets/images/cj9708zpg0hqr0148p3f0w1m5.jpg'),
+        require('./assets/images/cj97070hr0hqk014869f4cyf1.jpg'),
+
+
       ]),
       Font.loadAsync({
         Roboto: require("native-base/Fonts/Roboto.ttf"),
