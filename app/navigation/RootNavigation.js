@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import MainTabNavigator from './MainTabNavigator';
 import BarcodeScanScreen from '../screens/BarcodeScanScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
+import FeedbackForm from '../screens/FeedbackForm';
 
 
 const RootNavigation = props => {
@@ -19,6 +20,9 @@ const RootNavigation = props => {
       Main: {
         screen: MainTabNavigator,
       },
+      Feedback: {
+        screen: FeedbackForm,
+      }
     },
     {
       initialRouteName: props.redemptionQR == null ? 'Welcome' : 'Main',
