@@ -1,0 +1,59 @@
+﻿type Attraction @model {
+  addressString: String
+  customers: [Customer!]! @relation(name: "AttractionsVisited")
+  description: String
+  directions: String
+  id: ID! @isUnique
+  inclusion: String
+  latitude: Float
+  longitude: Float
+  merchantID: String @isUnique
+  name: String!
+  operatingHours: Json
+  redemptionDetails: String
+  specialHours: Json
+  url: String
+}
+
+type BusRoute @model {
+  color: String
+  id: ID! @isUnique
+  lineString: [Json!]
+  placeMarks: [Json!]!
+}
+
+type Customer @model {
+  attractions: [Attraction!]! @relation(name: "AttractionsVisited")
+  id: ID! @isUnique
+  name: String
+  numTix: Int
+  redemptionQR: String @isUnique
+  ticketQR: String
+  validUntil: DateTime
+}
+
+type Discount @model {
+  description: String!
+  discountedItem: String
+  id: ID! @isUnique
+  latitude: Float
+  longitude: Float
+  name: String!
+}
+
+type File @model {
+  contentType: String!
+  createdAt: DateTime!
+  id: ID! @isUnique
+  name: String!
+  secret: String! @isUnique
+  size: Int!
+  updatedAt: DateTime!
+  url: String! @isUnique
+}
+
+type User @model {
+  createdAt: DateTime!
+  id: ID! @isUnique
+  updatedAt: DateTime!
+}
