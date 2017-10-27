@@ -40,7 +40,6 @@ export default class BusCarousel extends React.Component {
        stops = this.props.stops;
      }
 
-     console.log(stops);
      return (
          <Carousel
           style={{

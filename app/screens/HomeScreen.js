@@ -8,11 +8,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Button, Card, CardItem, Content, Header, Left, Body, Right, Spinner, Title } from 'native-base';
+import { Card, CardItem, Content, Header, Left, Body, Right, Spinner, Title, Container } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
+import DiscountsCarousel from '../components/DiscountsCarousel';
+
 import { graphql, gql, compose } from 'react-apollo';
-import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
 import QRCode from 'react-native-qrcode';
 const redemptionQR = "093cin209n2093icn092eni ";
 class HomeScreen extends React.Component {
@@ -69,18 +69,28 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <Content>
-        <Card style={{flex:1, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent'}}>
-
-          <CardItem style={{backgroundColor: 'transparent'}}>
-            <Text> Show this QRCode to gain access to Attractions!</Text>
+      <Container>
+        <Card>
+          <CardItem style={{flex: 1}}>
+            <Grid>
+              <Col style={{ width: 61, height: 200 }}></Col>
+              <Col style={{ height: 200 }}>{ this.renderQR() }</Col>
+              <Col style={{ width: 61, height: 200 }}></Col>
+            </Grid>
           </CardItem>
-
-          <CardItem style={{marginBottom: 15}}>
-            {this.renderQR()}
+          <CardItem style={{flex: 1}}>
+            <View style={{
+              position: 'absolute',
+              left: 0,
+              bottom: 0,
+              top: 0,
+              right: 0,
+            }}>
+              <DiscountsCarousel/>
+           </View>
           </CardItem>
         </Card>
-      </Content>
+      </Container>
     );
   }
 
