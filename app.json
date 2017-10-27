@@ -22,7 +22,12 @@
       "bundleIdentifier": "com.whyn.ssh"
     },
     "android": {
-      "package": "com.whyn.ssh"
+      "package": "com.whyn.ssh",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCpgIblJ393IgZVLzPKtCBNevA2AtHn5Cw"
+        }
+      } 
     },
     "androidStatusBar": {
       "barStyle": "light-content",
