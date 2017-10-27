@@ -11,7 +11,7 @@ import {
 import { Card, CardItem, Content, Header, Left, Body, Right, Spinner, Title, Container } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import DiscountsCarousel from '../components/DiscountsCarousel';
-
+import { connect } from 'react-redux';
 import { graphql, gql, compose } from 'react-apollo';
 import QRCode from 'react-native-qrcode';
 const redemptionQR = "093cin209n2093icn092eni ";
