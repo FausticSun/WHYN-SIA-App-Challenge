@@ -14,6 +14,11 @@ export default class BusCarousel extends React.Component {
 
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.changeMap) {
+      this._carousel.snapToItem(0, false);
+    }
+  }
 
    _renderItem ({item, index}) {
 

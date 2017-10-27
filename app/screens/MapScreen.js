@@ -30,6 +30,7 @@ class MapScreen extends React.Component {
       },
       focussed: false,
       focusIndex: -1,
+      changeMap: false,
     };
   }
 
@@ -63,9 +64,13 @@ class MapScreen extends React.Component {
           this.setState({
             focussed: true,
             focusIndex: index,
+            changeMap: true,
           });
           this.focusStop(busRoute.placeMarks[0].Coord.latitude,
             busRoute.placeMarks[0].Coord.longitude);
+          this.setState({
+            changeMap:false,
+          })
         }}
       />);
     }
@@ -142,6 +147,7 @@ class MapScreen extends React.Component {
           <BusCarousel
             onSnap={this.focusStop.bind(this)}
             stops={this.props.data.allBusRoutes[this.state.focusIndex]}
+            changeMap={this.state.changeMap}
           /> }
       </View>
 
