@@ -39,9 +39,13 @@ class MapScreen extends React.Component {
   }
   renderAllRoutes() {
     if(this.props.data.loading == false){
-      for (var i = 0; i < this.props.data.allBusRoutes.length; i++) {
-        return this.renderRoute(i);
-      }
+      // for (var i = 0; i < this.props.data.allBusRoutes.length; i++) {
+      //
+      //   return this.renderRoute(i);
+      // }
+      return this.props.data.allBusRoutes.map((busRoute, index) => {
+        return this.renderRoute(index);
+      })
     }
   }
   renderRoute(index) {
@@ -50,10 +54,11 @@ class MapScreen extends React.Component {
       const busRoute = this.props.data.allBusRoutes[index];
 
       return (<MapView.Polyline // BUS ROUTE
+        key={index}
         coordinates={busRoute.lineString}
         strokeColor={busRoute.color}
         fillColor="rgba(255,0,0,0.5)"
-        strokeWidth={3}
+        strokeWidth={5}
         onPress={() => {
           this.setState({
             focussed: true,
@@ -85,7 +90,6 @@ class MapScreen extends React.Component {
 
   render() {
     return (
-
     <Container>
     <View style={styles.container}>
 
