@@ -24,41 +24,57 @@ class MapScreen extends React.Component {
     super(props);
 
     this.state = {
-      initialRegion: { // current location
+      initialRegion: { // current location TODO change to central location
         latitude: 1.2950416,
         longitude: 103.7717378,
       },
-      busRoute: BUS_ROUTE,
-      busStops: STOP_HOLDER,
+      focussed: false,
+      focusIndex: -1,
     };
   }
 
   focusStop(lat, long) {
     this.setState({region: {latitude: lat, longitude: long, latitudeDelta: 0.02,
     longitudeDelta: 0.0005,}, callout: {latitude: lat, longitude: long}});
-
   }
-
-  renderRoute() {
+  renderAllRoutes() {
     if(this.props.data.loading == false){
+      for (var i = 0; i < this.props.data.allBusRoutes.length; i++) {
+        return this.renderRoute(i);
+      }
+    }
+  }
+  renderRoute(index) {
+    if(this.props.data.loading == false){
+
+      const busRoute = this.props.data.allBusRoutes[index];
+
       return (<MapView.Polyline // BUS ROUTE
-        coordinates={this.props.data.allBusRoutes[0].lineString}
-        strokeColor="#2e00ff"
+        coordinates={busRoute.lineString}
+        strokeColor={busRoute.color}
         fillColor="rgba(255,0,0,0.5)"
         strokeWidth={3}
+        onPress={() => {
+          this.setState({
+            focussed: true,
+            focusIndex: index,
+          });
+          this.focusStop(busRoute.placeMarks[0].Coord.latitude,
+            busRoute.placeMarks[0].Coord.longitude);
+        }}
       />);
     }
   }
 
-  renderMarkers() {
+  renderMarkers(index) {
     if(this.props.data.loading == false) {
-      const markers = this.props.data.allBusRoutes[0].placeMarks.map((marker) => (
+      const markers = this.props.data.allBusRoutes[index].placeMarks.map((marker) => (
         <MapView.Marker
           key={marker.StopNum}
           coordinate={marker.Coord}
           title={marker.Name}
           description={'Bus Stop No.: ' + marker.StopNum}
-          pinColor={"#2e00ff"}
+          pinColor={this.props.data.allBusRoutes[index].color}
         />
       ));
       return markers;
@@ -86,9 +102,8 @@ class MapScreen extends React.Component {
         onRegionChange={(region)=>{this.setState({region})}}
         showsMyLocationButton={true}
       >
-
-        {this.renderRoute()}
-
+        {this.state.focussed && this.renderRoute(this.state.focusIndex)}
+        {!(this.state.focussed) && this.renderAllRoutes()}
         <MapView.Marker
           coordinate={{ // current location
             latitude: 1.2950416,
@@ -100,7 +115,7 @@ class MapScreen extends React.Component {
             <View style={styles.marker}/>
           </View>
         </MapView.Marker>
-        {this.renderMarkers()}
+        {this.state.focussed && this.renderMarkers(this.state.focusIndex)}
         <MapView.Marker // Changi Airport
           coordinate={{ // current location
             latitude: 1.3554069,
@@ -111,8 +126,6 @@ class MapScreen extends React.Component {
             tooltip={true}
             description={"hi"}
           />
-
-
       </MapView>
       </View>
       <View style={{
@@ -121,10 +134,12 @@ class MapScreen extends React.Component {
         flex: 1,
         position: 'absolute',
         height: 110,
-      }}>{ this.props.data.loading ? <Spinner/> :
-        <BusCarousel onSnap={this.focusStop.bind(this)} stops={this.props.data.allBusRoutes[0]}/>
-      }
-
+      }}>
+        { this.state.focussed &&
+          <BusCarousel
+            onSnap={this.focusStop.bind(this)}
+            stops={this.props.data.allBusRoutes[this.state.focusIndex]}
+          /> }
       </View>
 
     </Container>
