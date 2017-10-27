@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Card, CardItem, Content, Header, Left, Body, Right, Spinner, Title, Container } from 'native-base';
+import { Card, CardItem, Content, Header, Left, Body, Right, Spinner, Title, Container, Button } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import DiscountsCarousel from '../components/DiscountsCarousel';
 import { connect } from 'react-redux';
