@@ -8,10 +8,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Card, CardItem, Content, Header, Left, Body, Right, Spinner, Title } from 'native-base';
+import { Button, Card, CardItem, Content, Header, Left, Body, Right, Spinner, Title } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { graphql, gql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import QRCode from 'react-native-qrcode';
 const redemptionQR = "093cin209n2093icn092eni ";
 class HomeScreen extends React.Component {
@@ -21,15 +22,36 @@ class HomeScreen extends React.Component {
       text: "lmao"
     };
   }
- 
-  static navigationOptions = {
+  goFeedback = () =>{
+    console.log("Pressed");
+    this.props.navigation.dispatch(
+      NavigationActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'Feedback' })],
+      })
+    );
+  }
+  static navigationOptions = props => ({
     header: (
       <Header>
         <Left><Title>Home</Title></Left>
         <Body></Body>
+        <Right>
+          <Button onPress={() => {
+            props.navigation.dispatch(
+              NavigationActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({ routeName: 'Feedback' })],
+              })
+            );
+          }}>
+            <Text style={{color:"white"}}>Feedback</Text>
+          </Button>
+        </Right>
       </Header>
     ),
-  };
+  });
+  
   renderQR(){
     if(this.props.data.loading){
       return (<Spinner />);

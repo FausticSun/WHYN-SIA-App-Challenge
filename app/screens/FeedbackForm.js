@@ -3,11 +3,14 @@ import { Button, View, Title, Container, List, ListItem, Left, ListHeader,  Text
 import { StyleSheet, Dimensions } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
+import { connect } from 'react-redux';
+import { withApollo, gql } from 'react-apollo';
 import StarRating from 'react-native-star-rating';
+import { clearRedemptionQR } from '../actions/RedemptionQRActions';
 
 import STOP_HOLDER from '../constants/StopHolders';
 const abc= 200;
-export default class FeedbackForm extends Component {
+class FeedbackForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -91,7 +94,11 @@ export default class FeedbackForm extends Component {
                 <Item regular>
                   <Input placeholder='Enter comments'/>
                 </Item>
-                <Button block onPress={()=>  alert('Thanks for submitting your feedback!')}>
+                <Button block onPress={()=>
+                {
+                  alert('Thanks for submitting your feedback!');
+                  this.props.ClearRedemptionQR();
+                }}>
                   <Text>Submit</Text>
                 </Button>
               </Content>
@@ -123,6 +130,15 @@ export default class FeedbackForm extends Component {
   }
   
 }
+
+export default connect(
+  null,
+  (dispatch) => ({
+    ClearRedemptionQR: () => { dispatch(clearRedemptionQR()) }
+  })
+)(withApollo(FeedbackForm));
+
+
 const sliderWidth = viewportWidth;
 const itemWidth = 300;
 const sliderHeight = viewportHeight * 0.7;

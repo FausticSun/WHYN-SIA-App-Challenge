@@ -20,6 +20,9 @@ const RootNavigation = props => {
       Main: {
         screen: MainTabNavigator,
       },
+      Feedback: {
+        screen: FeedbackForm,
+      }
     },
     {
       initialRouteName: props.redemptionQR == null ? 'Welcome' : 'Main',
