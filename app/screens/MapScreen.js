@@ -102,8 +102,7 @@ class MapScreen extends React.Component {
         onRegionChange={(region)=>{this.setState({region})}}
         showsMyLocationButton={true}
       >
-        {this.state.focussed && this.renderRoute(this.state.focusIndex)}
-        {!(this.state.focussed) && this.renderAllRoutes()}
+        {this.renderAllRoutes()}
         <MapView.Marker
           coordinate={{ // current location
             latitude: 1.2950416,

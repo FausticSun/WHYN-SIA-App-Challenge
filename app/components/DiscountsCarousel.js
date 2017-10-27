@@ -17,7 +17,7 @@ export default class DiscountsCarousel extends React.Component {
 
         }}>
          <Card style={{
-             backgroundColor: '#f0f0f0',
+             backgroundColor: 'rgba(0,0,0,0.4)',
              height: '100%',
          }}>
            <CardItem>
