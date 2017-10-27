@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Image, ScrollView, StyleSheet,View, TouchableHighlight, TouchableOpacity } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
+import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Title } from 'native-base';
 
 export default class AttractionCard extends React.Component {
 
@@ -13,7 +13,7 @@ export default class AttractionCard extends React.Component {
       <TouchableOpacity
         onPress={handleOnPress}
         underlayColor="#f1f1f1">
-            <Card style={{padding: 0, backgroundColor: "red"}}>
+            <Card style={{padding: 0}}>
               <CardItem
                 style={{
                   paddingTop: 0,
@@ -29,7 +29,16 @@ export default class AttractionCard extends React.Component {
                   }}
                   source={imageURI}
                 >
-                  <Text style={{color: 'white'}}>{name}</Text>
+                  <Title
+
+                  style={{
+                    color: 'white',
+                    position: 'absolute',
+                    bottom: 10,
+                    right: 10,
+                  }}>
+                    {name}
+                  </Title>
                  </Image>
               </CardItem>
             </Card>

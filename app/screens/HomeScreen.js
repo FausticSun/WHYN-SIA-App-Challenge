@@ -8,8 +8,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Card, CardItem, Content, Header, Left, Body, Right, Spinner, Title } from 'native-base';
+import { Card, CardItem, Content, Header, Left, Body, Right, Spinner, Title, Container } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
+import DiscountsCarousel from '../components/DiscountsCarousel';
 
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -22,7 +23,7 @@ class HomeScreen extends React.Component {
       text: "lmao"
     };
   }
- 
+
   static navigationOptions = {
     header: (
       <Header>
@@ -36,32 +37,43 @@ class HomeScreen extends React.Component {
       return (<Spinner />);
     } else {
       return (
-       
-            
+
+
             <QRCode
               value={this.props.data.Customer.ticketQR}
               size={200}
               bgColor='black'
               fgColor='white'
             />
-          
+
       );
     }
   }
 
   render() {
     return (
-      <Content>
+      <Container>
         <Card>
-          <CardItem>
+          <CardItem style={{flex: 1}}>
             <Grid>
               <Col style={{ width: 61, height: 200 }}></Col>
               <Col style={{ height: 200 }}>{ this.renderQR() }</Col>
               <Col style={{ width: 61, height: 200 }}></Col>
             </Grid>
           </CardItem>
+          <CardItem style={{flex: 1}}>
+            <View style={{
+              position: 'absolute',
+              left: 0,
+              bottom: 0,
+              top: 0,
+              right: 0,
+            }}>
+              <DiscountsCarousel/>
+           </View>
+          </CardItem>
         </Card>
-      </Content>
+      </Container>
     );
   }
 

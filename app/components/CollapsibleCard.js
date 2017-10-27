@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Image, TouchableHighlight, Animated, Dimensions, ScrollView } from 'react-native';
-import { Card, Icon, CardItem, Text, Spinner, Container, Content } from 'native-base';
+import { Card, Icon, CardItem, Text, Spinner, Container, Content, Title } from 'native-base';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 import { NavigationActions } from 'react-navigation';
 
@@ -104,16 +104,18 @@ export default class CollapsibleCard extends React.Component{
                 width: '100%'
               }}
               source={imageURI}
-            >
-
-              <Text style={{color: 'white'}}>{title}</Text>
-            </Image>
+            />
             </TouchableHighlight>
           </CardItem>
           </View>
           <View
             ref={c => this.bot = c}
             onLayout={this.setBotHeight.bind(this)}>
+            <CardItem>
+              <Title style={{
+                color: 'black'
+              }}>{title}</Title>
+            </CardItem>
             <CardItem>
               <Text>{description}</Text>
             </CardItem>
